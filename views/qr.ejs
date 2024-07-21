@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp QR Code</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <h1>Scan the QR Code to Authenticate with WhatsApp</h1>
+    <div id="qr-code-container">
+        <% if (latestQRCode) { %>
+            <img src="<%= latestQRCode %>" alt="QR Code">
+        <% } else { %>
+            <p>Loading QR code...</p>
+        <% } %>
+    </div>
+    <script>
+        const ws = new WebSocket(`ws://${window.location.host}`);
+        ws.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            const qrCodeContainer = document.getElementById('qr-code-container');
+            if (data.type === 'qr') {
+                console.log('Received QR code');
+                qrCodeContainer.innerHTML = `<img src="${data.qrCodeImage}" alt="QR Code">`;
+            } else if (data.type === 'status' && data.message === 'Connected') {
+                window.location.href = '/dashboard';
+            }
+        };
+    </script>
+</body>
+</html>
