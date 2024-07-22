@@ -18,10 +18,33 @@ example:
 ```
 
 ### Custom Message
-Go to: `/utils/MessageUtils.js`
+Go to: `/config/ConfigMessage.json
 
-### Settings
-Go to: `config/ConfigSettings.json`
+### App Searching
+```
+.app <query>
+
+example:
+.app whatsapp
+```
+
+### Chat GPT
+```
+.ai <question>
+
+example:
+.ai hi
+```
+
+### SEO Checker
+```
+.seo <domain>
+
+example:
+.seo i-as.dev
+```
+
+Features will continue to grow over time
 
 ## Instalation
 ```
