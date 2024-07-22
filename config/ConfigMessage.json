@@ -1,0 +1,10 @@
+[
+    {
+		"startsWith": ".bot",
+		"responseText": "Hi, I am Bot"
+	},
+    {
+		"startsWith": ".hello",
+		"responseText": "Hello there!"
+	}
+]
