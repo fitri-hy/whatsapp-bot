@@ -1,9 +1,11 @@
 const { default: makeWASocket, DisconnectReason, useMultiFileAuthState, Browsers } = require('@whiskeysockets/baileys');
 const { Boom } = require('@hapi/boom');
 const qrcode = require('qrcode-terminal');
+const path = require('path');
 const fs = require('fs');
 
-const ConfigSettings = JSON.parse(fs.readFileSync('../config/ConfigSettings.json', 'utf8'));
+const configPath = path.join(__dirname, '../config/ConfigSettings.json');
+const ConfigSettings = JSON.parse(fs.readFileSync(configPath, 'utf8'));
 
 async function WhatsappUtils(messageHandler, useBoom = ConfigSettings.setting.ConfigBoom) {
     const { state, saveCreds } = await useMultiFileAuthState('auth_info_baileys');

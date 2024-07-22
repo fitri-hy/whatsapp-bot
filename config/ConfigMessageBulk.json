@@ -1,11 +1,20 @@
 {
-    "bulk": {
-        "recipients": [
-            "1234567890@s.whatsapp.net",
-            "0987654321@s.whatsapp.net"
-        ],
-        "message": {
-            "responseText": "This is a bulk message"
-        }
+  "group1": {
+    "recipients": [
+      "628xxxxxxxxxx@s.whatsapp.net",
+      "628xxxxxxxxxx@s.whatsapp.net"
+    ],
+    "message": {
+      "responseText": "This is a bulk message"
     }
+  },
+  "group2": {
+    "recipients": [
+      "628xxxxxxxxxx@s.whatsapp.net",
+      "628xxxxxxxxxx@s.whatsapp.net"
+    ],
+    "message": {
+      "responseText": "This is a bulk message two"
+    }
+  }
 }
