@@ -1,14 +1,32 @@
-# Whatsapp-Bot
+# Whatsapp Bot
 
-ConfigMessageBulk.json
-- .bulk create <namegroup> <phone1,phone2,phone3,...> " responseText "
-- .bulk list
-- .bulk start <group_name>
+### Bulk Message
+```
+.bulk list
+```
+```
+.bulk create <namegroup> <phone1,phone2,phone3,...> "responseText"
 
-ConfigMessage.json
-- .hi
-- .hello
+example:
+.bulk create group-bulk 681111111111,6282222222222,62833333333 "Hi, This is a bulk message"
+```
+```
+.bulk start <group_name>
 
-ConfigSettings.json
-- ConfigBoom: false
-- delayMs": 1000
+example:
+.bulk start group-bulk
+```
+
+### Custom Message
+Go to: `/utils/MessageUtils.js`
+
+### Settings
+Go to: `config/ConfigSettings.json`
+
+## Instalation
+```
+git clone https://github.com/fitri-hy/whatsapp-bot.git
+cd whatsapp-bot
+npm install
+npm start
+```
