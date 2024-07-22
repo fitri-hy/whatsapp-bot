@@ -44,6 +44,23 @@ example:
 .seo i-as.dev
 ```
 
+### Math
+```
+.mtk <summation>
+
+example:
+.mtk 10+10-10*2/2
+```
+
+### Encrypted
+```
+.md5 <text> - Generates an MD5 hash of the text.
+.sha256 <text> - Generates a SHA-256 hash of text.
+.sha512 <text> - Generates a SHA-512 hash of the text.
+.ripemd160 <text> - Generates a RIPEMD-160 hash of the text.
+.blake2 <text> - Generates a BLAKE2 hash of the text.
+```
+
 Features will continue to grow over time
 
 ## Instalation

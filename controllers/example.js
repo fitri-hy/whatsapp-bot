@@ -4,7 +4,7 @@ async function handleExample(sock, message) {
 
     if (messageText.startsWith('.custom')) {
 		const responseText = 'Hi, I am Bot custom';
-		console.log(Replying to ${remoteJid} with "${responseText}");
+		console.log(`Replying to ${remoteJid} with "${responseText}"`);
 		await sock.sendMessage(remoteJid, { text: responseText }, { quoted: message });
 	}
 }
