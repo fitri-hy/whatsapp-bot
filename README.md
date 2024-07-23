@@ -61,7 +61,7 @@ example:
 .blake2 <text> - Generates a BLAKE2 hash of the text.
 ```
 
-### Trnaslation
+### Translation
 ```
 .translate <lang-id> <text>
 
@@ -77,7 +77,7 @@ example:
 .searchpdf modules javascript
 ```
 
-### Vdeo Searching
+### Video Searching
 ```
 .searchvideo <query>
 
