@@ -61,6 +61,14 @@ example:
 .blake2 <text> - Generates a BLAKE2 hash of the text.
 ```
 
+### Trnaslation
+```
+.translate <lang-id> <text>
+
+example:
+.translate id hungry
+```
+
 Features will continue to grow over time
 
 ## Instalation

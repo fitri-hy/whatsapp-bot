@@ -6,6 +6,7 @@ const handleAppSearch = require('../controllers/appSearchResponses');
 const handleSeoCheck = require('../controllers/seoCheckResponses');
 const handleMath = require('../controllers/mathResponses');
 const handleEncryptDecrypt = require('../controllers/edResponses');
+const handleTranslate = require('../controllers/translateResponses');
 
 async function handleMessage(sock, message) {
     await handleStandardResponses(sock, message);
@@ -15,6 +16,7 @@ async function handleMessage(sock, message) {
     await handleSeoCheck(sock, message);
     await handleMath(sock, message);
     await handleEncryptDecrypt(sock, message);
+    await handleTranslate(sock, message);
 }
 
 module.exports = { handleMessage };
