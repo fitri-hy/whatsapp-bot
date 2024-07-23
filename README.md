@@ -69,6 +69,22 @@ example:
 .translate id hungry
 ```
 
+### PDF Searching
+```
+.searchpdf <query>
+
+example:
+.searchpdf modules javascript
+```
+
+### Vdeo Searching
+```
+.searchvideo <query>
+
+example:
+.searchvideo learn javascript
+```
+
 Features will continue to grow over time
 
 ## Instalation

@@ -16,6 +16,7 @@
     "crypto": "^1.0.1",
     "crypto-js": "^4.2.0",
     "expr-eval": "^2.0.2",
+    "puppeteer": "^22.13.1",
     "qrcode-terminal": "^0.12.0"
   }
 }
