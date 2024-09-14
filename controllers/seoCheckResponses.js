@@ -9,7 +9,7 @@ async function handleSeoCheck(sock, message) {
 
         async function getResponse(domain) {
             try {
-                const response = await axios.get(`https://i-as.dev/api/check-seo/${encodeURIComponent(domain)}`);
+                const response = await axios.get(`https://api.i-as.dev/api/check-seo/${encodeURIComponent(domain)}`);
                 const seoData = response.data;
 
                 const formattedResponse = `

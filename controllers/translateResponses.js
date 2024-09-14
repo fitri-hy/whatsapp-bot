@@ -16,7 +16,7 @@ async function handleTranslate(sock, message) {
 
         async function getTranslation(queryText, targetLang) {
             try {
-                const response = await axios.get(`https://i-as.dev/api/translate`, {
+                const response = await axios.get(`https://api.i-as.dev/api/translate`, {
                     params: {
                         text: queryText,
                         target: targetLang

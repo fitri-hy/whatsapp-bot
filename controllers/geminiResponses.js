@@ -9,7 +9,7 @@ async function handleGemini(sock, message) {
 
         async function getAiResponse(question) {
             try {
-                const response = await axios.get(`https://i-as.dev/api/gemini/${encodeURIComponent(question)}`);
+                const response = await axios.get(`https://api.i-as.dev/api/gemini/${encodeURIComponent(question)}`);
                 return response.data.text;
             } catch (error) {
                 console.error('Error fetching AI response:', error);

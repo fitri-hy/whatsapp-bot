@@ -9,7 +9,7 @@ async function handleAppSearch(sock, message) {
 
         async function getResponse(query) {
             try {
-                const response = await axios.get(`https://i-as.dev/api/app/${encodeURIComponent(query)}`);
+                const response = await axios.get(`https://api.i-as.dev/api/app/${encodeURIComponent(query)}`);
                 const apps = response.data;
 
                 const formattedResponse = apps.map(app => {
