@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const { GeminiMessage } = require('./Gemini');
 const configPath = path.join(__dirname, '../config.json');
 const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
 
@@ -8,9 +9,8 @@ async function Message(sock, messages) {
     const chatId = msg.key.remoteJid;
     const messageBody = (msg.message && msg.message.conversation) || (msg.message && msg.message.extendedTextMessage && msg.message.extendedTextMessage.text) || '';
 	
-    // Cek apakah pengirim adalah bot jika ya lanjutkan
-    if (msg.key.fromMe === config.SELF_BOT) {
-
+    // Self Message
+    if (msg.key.fromMe === config.SELF_BOT_MESSAGE) {
         // Hapus pesan jika terdapat url/domain
         if (config.ANTI_LINK) {
             const urlRegex = /https?:\/\/[^\s]+|(?:www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}/g; 
@@ -25,11 +25,39 @@ async function Message(sock, messages) {
             }
         }
 
-        // Balas pesan dengan quoted
-        if (messageBody === '.hi') {
+        // Gemini AI
+        if (messageBody.startsWith('.gemini ')) {
+            const question = messageBody.slice(8).trim();
             await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
             try {
-                const responseMessage = 'Oh hello there';
+                const responseMessage = await GeminiMessage(question);
+                await sock.sendMessage(chatId, { text: responseMessage }, { quoted: msg });
+                console.log(`Response: ${responseMessage}`);
+                await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+            } catch (error) {
+                console.error('Error sending message:', error);
+                await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+            }
+        }
+
+        // Balas pesan dengan quoted
+        if (messageBody === '.menu') {
+            await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+            try {
+                const responseMessage = `*AI*
+• .gemini _*question*_
+
+*Group*
+• .add _*phone-number*_
+• .kick _*mention*_
+• .promote _*mention*_
+• .demote _*mention*_
+• .group-name _*new-name*_
+• .group-desc _*new-desc*_
+• .chat-close _(*close chat*)_
+• .chat-open _(*open-chat*)_
+• .antilink-true _(*undelete link*)_
+• .antilink-false _(*delete link*)_`;
                 await sock.sendMessage(chatId, { text: responseMessage }, { quoted: msg });
                 console.log(`Response: ${responseMessage}`);
 
@@ -39,6 +67,24 @@ async function Message(sock, messages) {
                 await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
             }
         }
+
+        if (messageBody.startsWith('.gemini ')) {
+            const question = messageBody.slice(8).trim();
+            await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+            try {
+                const responseMessage = await GeminiMessage(question);
+                await sock.sendMessage(chatId, { text: responseMessage }, { quoted: msg });
+                console.log(`Response: ${responseMessage}`);
+                await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+            } catch (error) {
+                console.error('Error sending message:', error);
+                await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+            }
+        }
+    }
+
+    // Self Utility Command
+    if (msg.key.fromMe === config.SELF_BOT_UTILITY) {
 
         // Group Adding User
         if (messageBody.startsWith('.add')) {
@@ -177,6 +223,44 @@ async function Message(sock, messages) {
                 await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
             } catch (error) {
                 console.error('Error opening chat:', error);
+                await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+            }
+        }
+
+        // Anti Link Actived
+        if (messageBody === '.antilink-true') {
+            await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+            try {
+                config.ANTI_LINK = true;
+        
+                fs.writeFileSync(configPath, JSON.stringify(config, null, 2), 'utf-8');
+        
+                const responseMessage = `Anti link actived`;
+                await sock.sendMessage(chatId, { text: responseMessage }, { quoted: msg });
+                console.log(`Response: ${responseMessage}`);
+        
+                await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+            } catch (error) {
+                console.error('Error sending message:', error);
+                await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+            }
+        }
+        
+        // Anti Link Non-Actived
+        if (messageBody === '.antilink-false') {
+            await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+            try {
+                config.ANTI_LINK = false;
+        
+                fs.writeFileSync(configPath, JSON.stringify(config, null, 2), 'utf-8');
+        
+                const responseMessage = `Anti link nonactived`;
+                await sock.sendMessage(chatId, { text: responseMessage }, { quoted: msg });
+                console.log(`Response: ${responseMessage}`);
+        
+                await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+            } catch (error) {
+                console.error('Error sending message:', error);
                 await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
             }
         }

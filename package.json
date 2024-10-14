@@ -1,5 +1,5 @@
 {
-  "name": "Whatsapp Bot",
+  "name": "Whatsapp-Bot",
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
@@ -10,6 +10,7 @@
   "license": "MIT",
   "description": "",
   "dependencies": {
+    "@google/generative-ai": "^0.21.0",
     "@whiskeysockets/baileys": "^6.7.8",
     "fs": "^0.0.1-security",
     "path": "^0.12.7",
