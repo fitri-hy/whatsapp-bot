@@ -1,4 +1,3 @@
-const { WhatsappUtils } = require('./utils/WhatsappUtils');
-const { handleMessage } = require('./utils/MessageUtils');
+const startBot = require('./config/WhatsappConnection');
 
-WhatsappUtils(handleMessage).catch(err => console.error('Failed to connect to WhatsApp:', err));
+startBot();

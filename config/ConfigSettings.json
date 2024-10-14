@@ -1,8 +1,0 @@
-{
-    "setting": {
-        "ConfigBoom": false
-    },
-    "bulksetting": {
-        "delayMs": 1000
-    }
-}

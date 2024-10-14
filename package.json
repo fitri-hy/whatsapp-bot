@@ -1,22 +1,19 @@
 {
-  "name": "Whatsapp-Bot",
+  "name": "Whatsapp Bot",
   "version": "1.0.0",
-  "description": "",
   "main": "app.js",
   "scripts": {
     "start": "node app.js"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
+  "description": "",
   "dependencies": {
-    "@hapi/boom": "^10.0.1",
-    "@whiskeysockets/baileys": "^6.7.5",
-    "axios": "^1.7.2",
-    "crypto": "^1.0.1",
-    "crypto-js": "^4.2.0",
-    "expr-eval": "^2.0.2",
-    "puppeteer": "^22.13.1",
+    "@whiskeysockets/baileys": "^6.7.8",
+    "fs": "^0.0.1-security",
+    "path": "^0.12.7",
+    "qrcode": "^1.5.4",
     "qrcode-terminal": "^0.12.0"
   }
 }
