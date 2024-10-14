@@ -8,11 +8,9 @@ async function Message(sock, messages) {
     const msg = messages[0];
     const chatId = msg.key.remoteJid;
     const messageBody = (msg.message && msg.message.conversation) || (msg.message && msg.message.extendedTextMessage && msg.message.extendedTextMessage.text) || '';
-	
-    // Self Message
-    if (msg.key.fromMe === config.SELF_BOT_MESSAGE) {
-        // Hapus pesan jika terdapat url/domain
-        if (config.ANTI_LINK) {
+
+    // Hapus pesan jika terdapat url/domain
+    if (config.ANTI_LINK) {
             const urlRegex = /https?:\/\/[^\s]+|(?:www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}/g; 
             const containsUrl = urlRegex.test(messageBody);
             if (containsUrl) {
@@ -23,7 +21,10 @@ async function Message(sock, messages) {
                     console.error('Error deleting message:', error);
                 }
             }
-        }
+     }
+	
+    // Self Message
+    if (msg.key.fromMe === config.SELF_BOT_MESSAGE) {
 
         // Gemini AI
         if (messageBody.startsWith('.gemini ')) {
