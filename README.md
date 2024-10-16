@@ -20,6 +20,7 @@
 |.wiki-ai		|Get wiki content based on a query, example: **.wiki-ai kucing**|
 |.wiki-search	|Gets a list of wiki contents based on a query, example: **.wiki-search kucing**|
 |.wiki-img		|Gets Images from wiki based on query, example: **.wiki-image kucing**|
+|.weather		|Gets weather data based on city name, example: **.weather jakarta**|
 
 ### Group Command
 

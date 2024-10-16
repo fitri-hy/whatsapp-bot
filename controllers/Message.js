@@ -5,6 +5,7 @@ const path = require('path');
 const gTTS = require('gtts');
 const { GeminiMessage, GeminiImage } = require('./Gemini');
 const { WikipediaSearch, WikipediaAI, WikipediaImage } = require('./Wikipedia');
+const { Weather } = require('./Weather');
 const configPath = path.join(__dirname, '../config.json');
 const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
 
@@ -78,6 +79,24 @@ async function Message(sock, messages) {
 	
     // Self Message
     if (msg.key.fromMe === config.SELF_BOT_MESSAGE) {
+		
+		// Weather
+		if (messageBody.startsWith('.weather ')) {
+			const cityName = messageBody.replace('.weather ', '').trim();
+			await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+			try {
+				const weatherJson = await Weather(cityName);
+				const responseMessage = `*Weather in ${cityName}*\n\nTemperature: ${weatherJson.temperature}\nCondition: ${weatherJson.condition}\nWind: ${weatherJson.wind}\nHumidity: ${weatherJson.humidity}`;
+
+				await sock.sendMessage(chatId, { text: responseMessage }, { quoted: msg });
+				console.log(`Response: ${responseMessage}`);
+
+				await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+			} catch (error) {
+				console.error('Error sending message:', error);
+				await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+			}
+		}
 		
 		// Wiki AI
 		if (messageBody.startsWith('.wiki-ai ')) {
