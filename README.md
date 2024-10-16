@@ -29,7 +29,12 @@
 |.words					|Counting words, example: `.words hello words`|
 |.mtk					|Multi math addition, example: `.mtk 1-1+1*1:1`|
 |.qrcode				|Generate QRcode Image, example: `.qrcode hello words`|
+|.{file-type}			|Generate QRcode Image, example: `.pdf javascript`|
 
+**File Type Support**
+```
+.pdf, .doc, .docx, .xls, .xlsx, .ppt, .pptx, .txt, .html, .htm, .csv, .rtf, .odt, .ods, .odp, .epub, .zip, .gz
+```
 ### Group Command
 
 | Command           |  Deskription      |

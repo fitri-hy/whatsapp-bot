@@ -11,6 +11,7 @@ const { Translate } = require('./Translates');
 const { Surah, SurahDetails } = require('./Quran');
 const { Country } = require('./Country');
 const { CheckSEO } = require('./SEO');
+const { FileSearch } = require('./FileSearch');
 const configPath = path.join(__dirname, '../config.json');
 const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
 
@@ -85,6 +86,29 @@ async function Message(sock, messages) {
     // Self Message
     if (msg.key.fromMe === config.SELF_BOT_MESSAGE) {
 		
+		// File Search
+		if (messageBody.startsWith('.')) {
+			const parts = messageBody.split(' ');
+			const fileType = parts[0].substring(1);
+			const query = parts.slice(1).join(' ').trim();
+
+			const validFileTypes = ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'txt', 'html', 'htm', 'csv', 'rtf', 'odt', 'ods', 'odp', 'epub', 'zip', 'gz'];
+
+			if (validFileTypes.includes(fileType)) {
+				await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+
+				try {
+					const responseMessage = await FileSearch(query, fileType);
+					await sock.sendMessage(chatId, { text: responseMessage }, { quoted: msg });
+					console.log(`Response: ${responseMessage}`);
+					await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+				} catch (error) {
+					console.error('Error sending message:', error);
+					await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+				}
+			}
+		}
+
 		// Generate QRCode
 		if (messageBody.startsWith('.qrcode ')) {
 			const text = messageBody.replace('.qrcode ', '').trim();
