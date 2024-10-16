@@ -32,6 +32,7 @@
 |.mtk					|Multi math addition, example: `.mtk 1-1+1*1:1`|
 |.qrcode				|Generate QRcode Image, example: `.qrcode hello words`|
 |.{file-type}			|Generate QRcode Image, example: `.pdf javascript`|
+|**Vews Feature**   |Comming Soon ...|
 
 **File Type Support**
 ```
@@ -51,7 +52,6 @@
 |.antilink-false    |Disables deleting messages containing links in groups|
 |.badwords-true     |Enable deleting messages containing badwords in group|
 |.badwords-false    |Disables deleting messages containing badwords in groups|
-
 
 ## Instalation
 
