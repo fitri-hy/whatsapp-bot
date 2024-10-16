@@ -32,7 +32,7 @@
 |.mtk					|Multi math addition, example: `.mtk 1-1+1*1:1`|
 |.qrcode				|Generate QRcode Image, example: `.qrcode hello words`|
 |.{file-type}			|Generate QRcode Image, example: `.pdf javascript`|
-|**Vews Feature**   |Comming Soon ...|
+|**News Feature**   |Comming Soon ...|
 
 **File Type Support**
 ```
