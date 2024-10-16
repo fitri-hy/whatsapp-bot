@@ -1,5 +1,11 @@
 # Whatsapp Bot
 
+### Support
+
+- Windows
+- Linux
+- Termux
+
 ### Feature
 - Self Bot (True/False) Command `config.json`
 
