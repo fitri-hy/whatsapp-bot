@@ -39,6 +39,8 @@
 
 ## Instalation
 
+Please visit the [AI Studio](https://aistudio.google.com) site to get the gemini apikey, Then configure in `config.json`
+
 ### Windows
 
 - Install Node.js [Download](https://nodejs.org/id)
