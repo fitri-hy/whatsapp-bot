@@ -6,6 +6,7 @@ const gTTS = require('gtts');
 const { GeminiMessage, GeminiImage } = require('./Gemini');
 const { WikipediaSearch, WikipediaAI, WikipediaImage } = require('./Wikipedia');
 const { Weather } = require('./Weather');
+const { Translate } = require('./Translates');
 const configPath = path.join(__dirname, '../config.json');
 const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
 
@@ -79,6 +80,24 @@ async function Message(sock, messages) {
 	
     // Self Message
     if (msg.key.fromMe === config.SELF_BOT_MESSAGE) {
+		
+		// Translate
+		if (messageBody.startsWith('.translate-')) {
+			const langId = messageBody.split(' ')[0].split('-')[1];
+			const text = messageBody.split(' ').slice(1).join(' ');
+
+			await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+			try {
+				const translateText = await Translate(text, langId);
+				await sock.sendMessage(chatId, { text: translateText }, { quoted: msg });
+				console.log(`Response: ${translateText}`);
+
+				await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+			} catch (error) {
+				console.error('Error sending message:', error);
+				await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+			}
+		}
 		
 		// Weather
 		if (messageBody.startsWith('.weather ')) {

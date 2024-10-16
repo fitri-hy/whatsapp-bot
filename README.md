@@ -11,16 +11,17 @@
 
 ### Command
 
-| Command       |  Deskription      |
-|---------------|-------------------|
-|.gemini-ai		|To use Gemini AI, example: **.gemini hello**|
-|.gemini-img	|Analyze the quoted image: example quote image **.gemini-img What is this picture?**|
-|.sticker       |Convert images into stickers, example: quote image **.sticker**|
-|.to-voice		|Convert text to voice, example: **.to-voice hello words**|
-|.wiki-ai		|Get wiki content based on a query, example: **.wiki-ai kucing**|
-|.wiki-search	|Gets a list of wiki contents based on a query, example: **.wiki-search kucing**|
-|.wiki-img		|Gets Images from wiki based on query, example: **.wiki-image kucing**|
-|.weather		|Gets weather data based on city name, example: **.weather jakarta**|
+| Command      			|  Deskription      |
+|-----------------------|-------------------|
+|.gemini-ai				|To use Gemini AI, example: **.gemini hello**|
+|.gemini-img			|Analyze the quoted image: example quote image **.gemini-img What is this picture?**|
+|.sticker       		|Convert images into stickers, example: quote image **.sticker**|
+|.to-voice				|Convert text to voice, example: **.to-voice hello words**|
+|.wiki-ai				|Get wiki content based on a query, example: **.wiki-ai kucing**|
+|.wiki-search			|Gets a list of wiki contents based on a query, example: **.wiki-search kucing**|
+|.wiki-img				|Gets Images from wiki based on query, example: **.wiki-image kucing**|
+|.weather				|Gets weather data based on city name, example: **.weather jakarta**|
+|.translate-{langID}	|Translate into various languages, example: **.translate-en apa kabar**|
 
 ### Group Command
 
