@@ -14,6 +14,7 @@
     "@whiskeysockets/baileys": "^6.7.8",
     "child_process": "^1.0.2",
     "fs": "^0.0.1-security",
+    "gtts": "^0.2.1",
     "path": "^0.12.7",
     "qrcode": "^1.5.4",
     "qrcode-terminal": "^0.12.0"

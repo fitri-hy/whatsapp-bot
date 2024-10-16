@@ -2,6 +2,7 @@ const { downloadMediaMessage } = require('@whiskeysockets/baileys');
 const { exec } = require('child_process');
 const fs = require('fs');
 const path = require('path');
+const gTTS = require('gtts');
 const { GeminiMessage } = require('./Gemini');
 const configPath = path.join(__dirname, '../config.json');
 const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
@@ -43,6 +44,43 @@ async function Message(sock, messages) {
 	
     // Self Message
     if (msg.key.fromMe === config.SELF_BOT_MESSAGE) {
+		
+		// Convert Text to Voice
+		if (messageBody.startsWith('.to-voice')) {
+			const textToConvert = messageBody.replace('.to-voice ', '');
+			await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+
+			try {
+				const audioFilePath = path.join(__dirname, '../output.mp3');
+				const gtts = new gTTS(textToConvert, 'id');
+
+				gtts.save(audioFilePath, async function (err) {
+					if (err) {
+						console.error('Error saving audio:', err);
+						await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+						return;
+					}
+
+					await sock.sendMessage(chatId, {
+						audio: { url: audioFilePath },
+						mimetype: 'audio/mp4',
+						ptt: true,
+					}, { quoted: msg });
+
+					console.log(`Response: Audio sent ${audioFilePath}`);
+
+					fs.unlink(audioFilePath, (unlinkErr) => {
+						if (unlinkErr) {
+							console.error('Error deleting audio file:', unlinkErr);
+						}
+					});
+
+					await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+				});
+			} catch (error) {
+				await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+			}
+		}
 		
 		// Quote Image for Generate Sticker
 		if (messageBody === '.sticker') {

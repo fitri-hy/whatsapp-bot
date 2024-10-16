@@ -9,6 +9,7 @@
 |---------------|-------------------|
 |.gemini        |To use Gemini AI, example: **.gemini hello**|
 |.sticker       |Convert images into stickers, for example: quote image **.sticker**|
+|.to-voice		|Convert text to voice, example: **.to-voice hello words**|
 
 ### Group Command
 
