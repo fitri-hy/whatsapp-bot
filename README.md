@@ -17,8 +17,9 @@
 |.gemini-img	|Analyze the quoted image: example quote image **.gemini-img What is this picture?**|
 |.sticker       |Convert images into stickers, example: quote image **.sticker**|
 |.to-voice		|Convert text to voice, example: **.to-voice hello words**|
-|.wiki-ai		|Get wiki content based on a query, example: **.wiki-ai cat**|
-|.wiki-search	|Gets a list of wiki contents based on a query, example: **.wiki-search cat**|
+|.wiki-ai		|Get wiki content based on a query, example: **.wiki-ai kucing**|
+|.wiki-search	|Gets a list of wiki contents based on a query, example: **.wiki-search kucing**|
+|.wiki-img		|Gets Images from wiki based on query, example: **.wiki-image kucing**|
 
 ### Group Command
 

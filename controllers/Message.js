@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const gTTS = require('gtts');
 const { GeminiMessage, GeminiImage } = require('./Gemini');
-const { WikipediaSearch, WikipediaAI } = require('./Wikipedia');
+const { WikipediaSearch, WikipediaAI, WikipediaImage } = require('./Wikipedia');
 const configPath = path.join(__dirname, '../config.json');
 const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
 
@@ -16,6 +16,39 @@ async function Message(sock, messages) {
 		const regex = new RegExp(`\\b(${config.BAD_WORDS.join('|')})\\b`, 'i');
 		return regex.test(message);
 	}
+	
+	// ======BASIC========
+	// Send Message
+	if (messageBody === '.hi') {
+		await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+		try {
+			const responseMessage = "Hello";
+			await sock.sendMessage(chatId, { text: responseMessage }, { quoted: msg });
+			console.log(`Response: ${responseMessage}`);
+
+			await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+		} catch (error) {
+			console.error('Error sending message:', error);
+			await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+		}
+	}
+		
+	// Send Image
+	if (messageBody === '.test') {
+		await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+		try {
+			const url = "https://t3.ftcdn.net/jpg/07/66/87/68/360_F_766876856_XDPvm1sg90Ar5Hwf1jRRIHM4FNCXmhKj.jpg";
+			const caption = "Hello, i'm send images";
+			await sock.sendMessage(chatId, {image: {url: url}, caption: caption}, { quoted: msg });
+			console.log(`Response: ${caption}\n${url}`);
+
+			await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+		} catch (error) {
+			console.error('Error sending message:', error);
+			await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+		}
+	}
+	//======BASIC========
 	
 	// Deteksi dan hapus pesan jika ada kata kasar
 	if (config.ANTI_BADWORDS) {
@@ -76,6 +109,22 @@ async function Message(sock, messages) {
 					await sock.sendMessage(chatId, { text: responseMessage, quoted: msg });
 					console.log(`Response: ${responseMessage}`);
 				}
+
+				await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+			} catch (error) {
+				console.error('Error sending message:', error);
+				await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+			}
+		}
+		
+		// Wiki Image
+		if (messageBody.startsWith('.wiki-img ')) {
+			const userQuery = messageBody.slice(10).trim();
+			await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+			try {
+				const { url, caption } = await WikipediaImage(userQuery);
+				await sock.sendMessage(chatId, {image: {url: url}, caption: caption}, { quoted: msg });
+				console.log(`Response: ${caption}\n${url}`);
 
 				await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
 			} catch (error) {
@@ -209,21 +258,7 @@ async function Message(sock, messages) {
 					await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
 				}
 		}
-
-        // Balas pesan dengan quoted
-        if (messageBody === '.hi') {
-            await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
-            try {
-                const responseMessage = "Hello";
-                await sock.sendMessage(chatId, { text: responseMessage }, { quoted: msg });
-                console.log(`Response: ${responseMessage}`);
-
-                await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
-            } catch (error) {
-                console.error('Error sending message:', error);
-                await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
-            }
-        }
+       
     }
 
     // Self Utility Command

@@ -52,4 +52,45 @@ async function WikipediaSearch(query, sock, chatId, msg) {
     }
 }
 
-module.exports = { WikipediaAI, WikipediaSearch };
+async function WikipediaImage(query) {
+    try {
+        const searchResponse = await axios.get(`https://id.wikipedia.org/w/api.php`, {
+            params: {
+                action: 'query',
+                format: 'json',
+                list: 'search',
+                srsearch: query,
+                utf8: 1,
+                srlimit: 1
+            }
+        });
+        const pageId = searchResponse.data.query.search[0]?.pageid;
+        if (!pageId) {
+            await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+            return;
+        }
+        const imageResponse = await axios.get(`https://id.wikipedia.org/w/api.php`, {
+            params: {
+                action: 'query',
+                format: 'json',
+                prop: 'pageimages',
+                pageids: pageId,
+                pilimit: 'max',
+                pithumbsize: 500
+            }
+        });
+        const imageUrl = imageResponse.data.query.pages[pageId]?.thumbnail?.source;
+        const originalImageUrl = imageResponse.data.query.pages[pageId]?.imageinfo?.[0]?.url;
+        const finalImageUrl = originalImageUrl || imageUrl;
+        if (!finalImageUrl) {
+            await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+            return;
+        }
+        return { url: finalImageUrl, caption: `Image search results for: ${query}` };
+    } catch (error) {
+        console.error("Error fetching Wikipedia image:", error); // Log the error for debugging
+        await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+    }
+}
+
+module.exports = { WikipediaAI, WikipediaSearch, WikipediaImage };
