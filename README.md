@@ -13,28 +13,30 @@
 
 | Command      			|  Deskription      |
 |-----------------------|-------------------|
-|.gemini-ai				|To use Gemini AI, example: **.gemini hello**|
-|.gemini-img			|Analyze the quoted image: example quote image **.gemini-img What is this picture?**|
-|.sticker       		|Convert images into stickers, example: quote image **.sticker**|
-|.to-voice				|Convert text to voice, example: **.to-voice hello words**|
-|.wiki-ai				|Get wiki content based on a query, example: **.wiki-ai kucing**|
-|.wiki-search			|Get a list of wiki contents based on a query, example: **.wiki-search kucing**|
-|.wiki-img				|Get Images from wiki based on query, example: **.wiki-image kucing**|
-|.weather				|Get weather data based on city name, example: **.weather jakarta**|
-|.translate				|Translate into various languages, example: **.translate-en apa kabar**|
-|.surah					|Get the entire surah, example: **.surah 1**|
-|.surah-detail			|Get a specific verse from a surah, example: **.surah 1:4**|
-|.country				|Get country information, example: **.country indonesia**|
-|.seo					|Check SEO status by domain, example: **.seo youtube.com**|
+|.gemini-ai				|To use Gemini AI, example: `.gemini hello`|
+|.gemini-img			|Analyze the quoted image: example quote image `.gemini-img What is this picture?`|
+|.sticker       		|Convert images into stickers, example: quote image `.sticker`|
+|.to-voice				|Convert text to voice, example: `.to-voice hello words`|
+|.wiki-ai				|Get wiki content based on a query, example: `.wiki-ai kucing`|
+|.wiki-search			|Get a list of wiki contents based on a query, example: `.wiki-search kucing`|
+|.wiki-img				|Get Images from wiki based on query, example: `.wiki-image kucing`|
+|.weather				|Get weather data based on city name, example: `.weather jakarta`|
+|.translate				|Translate into various languages, example: `.translate-en apa kabar`|
+|.surah					|Get the entire surah, example: `.surah 1`|
+|.surah-detail			|Get a specific verse from a surah, example: `.surah 1:4`|
+|.country				|Get country information, example: `.country indonesia`|
+|.seo					|Check SEO status by domain, example: `.seo youtube.com`|
+|.words					|Counting words, example: `.words hello words`|
+|.mtk					|Multi math addition, example: `.mtk 1-1+1*1:1`|
 
 ### Group Command
 
 | Command           |  Deskription      |
 |-------------------|-------------------|
-|.add               |Adding a new member in group, example: **.add 628xxxxx**|
-|.kick              |Kicking members of the group, example: **.kick @mention**|
-|.promote           |Promote members in admin group, example: **.promote @mention**|
-|.demote            |Demote admins in group members, example: **.demote @mention**|
+|.add               |Adding a new member in group, example: `.add 628xxxxx`|
+|.kick              |Kicking members of the group, example: `.kick @mention`|
+|.promote           |Promote members in admin group, example: `.promote @mention`|
+|.demote            |Demote admins in group members, example: `.demote @mention`|
 |.chat-close        |Only admins can send messages in groups|
 |.chat-open         |Everyone can send messages in the group|
 |.antilink-true     |Enable deleting messages containing links in group|

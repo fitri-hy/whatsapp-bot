@@ -84,6 +84,61 @@ async function Message(sock, messages) {
     // Self Message
     if (msg.key.fromMe === config.SELF_BOT_MESSAGE) {
 		
+		//Mathematics 
+		if (messageBody.startsWith('.mtk ')) {
+			const expression = messageBody.replace('.mtk ', '').trim();
+			await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+			
+			try {
+				const result = calculateExpression(expression);
+				await sock.sendMessage(chatId, { text: `Result: ${result}` }, { quoted: msg });
+				console.log(`Response: Result: ${result}`);
+				
+				await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+			} catch (error) {
+				console.error('Error sending message:', error);
+				await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+			}
+		}
+
+		function calculateExpression(expression) {
+			const sanitizedExpression = expression.replace(/:/g, '/');
+			const result = eval(sanitizedExpression);
+			return result;
+		}
+		
+		// Count Words
+		if (messageBody.startsWith('.words ')) {
+			const text = messageBody.replace('.words ', '').trim();
+			await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+			
+			try {
+				const wordCount = text ? text.split(/\s+/).length : 0;
+				const characterCount = text.length;
+				const spaceCount = (text.match(/\s/g) || []).length;
+				const symbolCount = (text.match(/[^\w\s]/g) || []).length;
+				const paragraphCount = text.split(/\n+/).length;
+				const numberCount = (text.match(/\d+/g) || []).length;
+
+				const responseMessage = 
+				'*Text Analysis* \n\n' +
+				`- Word Count: ${wordCount}\n` +
+				`- Character Count: ${characterCount}\n` +
+				`- Space Count: ${spaceCount}\n` +
+				`- Symbol Count: ${symbolCount}\n` +
+				`- Paragraph Count: ${paragraphCount}\n` +
+				`- Number Count: ${numberCount}`;
+
+				await sock.sendMessage(chatId, { text: responseMessage }, { quoted: msg });
+				console.log(`Response: ${responseMessage}`);
+
+				await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+			} catch (error) {
+				console.error('Error sending message:', error);
+				await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+			}
+		}
+
 		// Check SEO
 		if (messageBody.startsWith('.seo ')) {
 			const domain = messageBody.replace('.seo ', '').trim();
