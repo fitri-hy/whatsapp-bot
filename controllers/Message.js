@@ -3,7 +3,8 @@ const { exec } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const gTTS = require('gtts');
-const { GeminiMessage } = require('./Gemini');
+const { GeminiMessage, GeminiImage } = require('./Gemini');
+const { WikipediaSearch, WikipediaAI } = require('./Wikipedia');
 const configPath = path.join(__dirname, '../config.json');
 const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
 
@@ -44,6 +45,44 @@ async function Message(sock, messages) {
 	
     // Self Message
     if (msg.key.fromMe === config.SELF_BOT_MESSAGE) {
+		
+		// Wiki AI
+		if (messageBody.startsWith('.wiki-ai ')) {
+			const searchQuery = messageBody.replace('.wiki-ai ', '').trim();
+			await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+
+			try {
+				const responseMessage = await WikipediaAI(searchQuery, sock, chatId, msg);
+				if (responseMessage) {
+					await sock.sendMessage(chatId, { text: responseMessage, quoted: msg });
+					console.log(`Response: ${responseMessage}`);
+				}
+
+				await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+			} catch (error) {
+				console.error('Error sending message:', error);
+				await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+			}
+		}
+
+		// Wiki Search
+		if (messageBody.startsWith('.wiki-search ')) {
+			const searchQuery = messageBody.replace('.wiki-search ', '').trim();
+			await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+
+			try {
+				const responseMessage = await WikipediaSearch(searchQuery, sock, chatId, msg);
+				if (responseMessage) {
+					await sock.sendMessage(chatId, { text: responseMessage, quoted: msg });
+					console.log(`Response: ${responseMessage}`);
+				}
+
+				await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+			} catch (error) {
+				console.error('Error sending message:', error);
+				await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+			}
+		}
 		
 		// Convert Text to Voice
 		if (messageBody.startsWith('.to-voice')) {
@@ -125,8 +164,8 @@ async function Message(sock, messages) {
 		}
 		
         // Gemini AI
-        if (messageBody.startsWith('.gemini ')) {
-            const question = messageBody.slice(8).trim();
+        if (messageBody.startsWith('.gemini-ai ')) {
+			const question = messageBody.replace('.gemini-ai ', '').trim();
             await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
             try {
                 const responseMessage = await GeminiMessage(question);
@@ -138,42 +177,47 @@ async function Message(sock, messages) {
                 await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
             }
         }
+		
+		// Gemini Image Analysis
+		if (messageBody.startsWith('.gemini-img ')) {
+				const quotedMessage = msg.message.extendedTextMessage?.contextInfo?.quotedMessage;
+				const getPrompt = messageBody.replace('.test ', '').trim();
+
+				if (quotedMessage?.imageMessage) {
+					await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+
+					const buffer = await downloadMediaMessage(
+						{ message: quotedMessage },
+						'buffer'
+					);
+
+					const inputFilePath = path.join(__dirname, '../input-image.jpg');
+					fs.writeFileSync(inputFilePath, buffer);
+
+					try {
+						const analysisResult = await GeminiImage(inputFilePath, getPrompt);
+						await sock.sendMessage(chatId, { text: analysisResult }, { quoted: msg });
+						console.log(`Response: ${analysisResult}`);
+					} catch (error) {
+					   await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+					} finally {
+						fs.unlinkSync(inputFilePath);
+						await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+					}
+				} else {
+					await sock.sendMessage(chatId, { text: "Tidak ada gambar yang di-quote untuk dianalisis." }, { quoted: msg });
+					await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+				}
+		}
 
         // Balas pesan dengan quoted
-        if (messageBody === '.menu') {
+        if (messageBody === '.hi') {
             await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
             try {
-                const responseMessage = `*AI*
-• .gemini _*question*_
-
-*Group*
-• .add _*phone-number*_
-• .kick _*mention*_
-• .promote _*mention*_
-• .demote _*mention*_
-• .group-name _*new-name*_
-• .group-desc _*new-desc*_
-• .chat-close _(*close chat*)_
-• .chat-open _(*open-chat*)_
-• .antilink-true _(*undelete link*)_
-• .antilink-false _(*delete link*)_`;
+                const responseMessage = "Hello";
                 await sock.sendMessage(chatId, { text: responseMessage }, { quoted: msg });
                 console.log(`Response: ${responseMessage}`);
 
-                await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
-            } catch (error) {
-                console.error('Error sending message:', error);
-                await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
-            }
-        }
-
-        if (messageBody.startsWith('.gemini ')) {
-            const question = messageBody.slice(8).trim();
-            await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
-            try {
-                const responseMessage = await GeminiMessage(question);
-                await sock.sendMessage(chatId, { text: responseMessage }, { quoted: msg });
-                console.log(`Response: ${responseMessage}`);
                 await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
             } catch (error) {
                 console.error('Error sending message:', error);

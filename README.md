@@ -13,9 +13,12 @@
 
 | Command       |  Deskription      |
 |---------------|-------------------|
-|.gemini        |To use Gemini AI, example: **.gemini hello**|
-|.sticker       |Convert images into stickers, for example: quote image **.sticker**|
+|.gemini-ai		|To use Gemini AI, example: **.gemini hello**|
+|.gemini-img	|Analyze the quoted image: example quote image **..gemini-img What is this picture?**|
+|.sticker       |Convert images into stickers, example: quote image **.sticker**|
 |.to-voice		|Convert text to voice, example: **.to-voice hello words**|
+|.wiki-ai		|Get wiki content based on a query, example: **.wiki-ai cat**|
+|.wiki-search	|Gets a list of wiki contents based on a query, example: **.wiki-search cat**|
 
 ### Group Command
 
