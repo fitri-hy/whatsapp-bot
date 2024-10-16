@@ -17,9 +17,9 @@ async function Message(sock, messages) {
 		return regex.test(message);
 	}
 	
-	// ======BASIC========
+	/* ======BASIC========
 	// Send Message
-	if (messageBody === '.hi') {
+	if (messageBody === '.send-teks') {
 		await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
 		try {
 			const responseMessage = "Hello";
@@ -34,7 +34,7 @@ async function Message(sock, messages) {
 	}
 		
 	// Send Image
-	if (messageBody === '.test') {
+	if (messageBody === '.send-img') {
 		await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
 		try {
 			const url = "https://t3.ftcdn.net/jpg/07/66/87/68/360_F_766876856_XDPvm1sg90Ar5Hwf1jRRIHM4FNCXmhKj.jpg";
@@ -48,7 +48,7 @@ async function Message(sock, messages) {
 			await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
 		}
 	}
-	//======BASIC========
+	======BASIC======== */
 	
 	// Deteksi dan hapus pesan jika ada kata kasar
 	if (config.ANTI_BADWORDS) {

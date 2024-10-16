@@ -1,12 +1,12 @@
 # Whatsapp Bot
 
-### Support
+## Support
 
 - Windows
 - Linux
 - Termux
 
-### Feature
+## Feature
 - Self Bot (True/False) Command `config.json`
 
 ### Command
@@ -35,3 +35,53 @@
 |.antilink-false    |Disables deleting messages containing links in groups|
 |.badwords-true     |Enable deleting messages containing badwords in group|
 |.badwords-false    |Disables deleting messages containing badwords in groups|
+
+
+## Instalation
+
+### Windows
+
+- Install Node.js [Download](https://nodejs.org/id)
+- Clone Repository
+```
+git clone https://github.com/fitri-hy/whatsapp-bot.git
+cd whatsapp-bot
+```
+- Run Bot
+```
+npm start
+```
+
+### Linux
+
+- Install Node.js
+```
+sudo apt update
+sudo apt install nodejs npm
+```
+- Clone Repository
+```
+git clone https://github.com/fitri-hy/whatsapp-bot.git
+cd whatsapp-bot
+```
+- Run Bot
+```
+npm start
+```
+
+### Termux
+
+- Install Node.js
+```
+pkg update
+pkg install nodejs git
+```
+- Clone Repository
+```
+git clone https://github.com/fitri-hy/whatsapp-bot.git
+cd whatsapp-bot
+```
+- Run Bot
+```
+npm start
+```
