@@ -57,6 +57,72 @@ async function Message(sock, messages) {
 	}
 	======BASIC======== */
 	
+	if (messageBody === '.menu') {
+		const filePath = path.join(__dirname, '../upload/ss.jpg');
+		await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+		try {
+			const url = filePath;
+			const caption = 
+				'*Whastapp Bot* \n\n' + 
+				'Gemini\n' + 
+				'★ *.gemini-ai* _<text>_\n' + 
+				'★ *.gemini-img* _<text>_ !quote\n\n' + 
+				'Misc\n' + 
+				'★ *.sticker* !quote\n' + 
+				'★ *.to-voice* _<text>_\n' + 
+				'★ *.wiki-ai* _<text>_\n' + 
+				'★ *.wiki-search* _<text>_\n' + 
+				'★ *.wiki-img* _<text>_\n' + 
+				'★ *.weather* _<city>_\n' + 
+				'★ *.translate* _<text>_\n' + 
+				'★ *.surah* _<value>_\n' + 
+				'★ *.surah-detail* _<value:value>_\n' + 
+				'★ *.country* _<country>_\n' + 
+				'★ *.seo* _<domain>_\n' + 
+				'★ *.words* _<text>_\n' + 
+				'★ *.mtk* _<1+1-1*1:1>_\n' + 
+				'★ *.qrcode* _<text>_\n\n' + 
+				'File Search\n' + 
+				'★ *.pdf* _<text>_\n' + 
+				'★ *.doc* _<text>_\n' + 
+				'★ *.docx* _<text>_\n' + 
+				'★ *.xls* _<text>_\n' + 
+				'★ *.xlsx* _<text>_\n' + 
+				'★ *.ppt* _<text>_\n' + 
+				'★ *.pptx* _<text>_\n' + 
+				'★ *.txt* _<text>_\n' + 
+				'★ *.html* _<text>_\n' + 
+				'★ *.htm* _<text>_\n' + 
+				'★ *.csv* _<text>_\n' + 
+				'★ *.rtf* _<text>_\n' + 
+				'★ *.odt* _<text>_\n' + 
+				'★ *.ods* _<text>_\n' + 
+				'★ *.odp* _<text>_\n' + 
+				'★ *.epub* _<text>_\n' + 
+				'★ *.zip* _<text>_\n' + 
+				'★ *.gz* _<text>_\n\n' + 
+				'Group\n' + 
+				'★ *.add* _<628xx>_\n' + 
+				'★ *.kick* _<@mention>_\n' + 
+				'★ *.promote* _<@mention>_\n' + 
+				'★ *.demote* _<@mention>_\n' + 
+				'★ *.chat-close*\n' + 
+				'★ *.chat-open*\n' + 
+				'★ *.antilink-true*\n' + 
+				'★ *.antilink-false*\n' + 
+				'★ *.badwords-true*\n' + 
+				'★ *.badwords-false*\n\n' + 
+				'Source : https://github.com/fitri-hy/whatsapp-bot';
+			await sock.sendMessage(chatId, {image: {url: url}, caption: caption}, { quoted: msg });
+			console.log(`Response: Success`);
+
+			await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+		} catch (error) {
+			console.error('Error sending message:', error);
+			await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+		}
+	}
+	
 	// Deteksi dan hapus pesan jika ada kata kasar
 	if (config.ANTI_BADWORDS) {
 		if (containsBadWords(messageBody)) {
