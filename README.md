@@ -28,6 +28,7 @@
 |.seo					|Check SEO status by domain, example: `.seo youtube.com`|
 |.words					|Counting words, example: `.words hello words`|
 |.mtk					|Multi math addition, example: `.mtk 1-1+1*1:1`|
+|.qrcode				|Generate QRcode Image, example: `.qrcode hello words`|
 
 ### Group Command
 

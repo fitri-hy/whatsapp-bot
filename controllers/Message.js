@@ -3,6 +3,7 @@ const { exec } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const gTTS = require('gtts');
+const QRCode = require('qrcode');
 const { GeminiMessage, GeminiImage } = require('./Gemini');
 const { WikipediaSearch, WikipediaAI, WikipediaImage } = require('./Wikipedia');
 const { Weather } = require('./Weather');
@@ -84,7 +85,35 @@ async function Message(sock, messages) {
     // Self Message
     if (msg.key.fromMe === config.SELF_BOT_MESSAGE) {
 		
-		//Mathematics 
+		// Generate QRCode
+		if (messageBody.startsWith('.qrcode ')) {
+			const text = messageBody.replace('.qrcode ', '').trim();
+			await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+			
+			try {
+				const qrCodeFilePath = path.join(__dirname, '../qrcode.png');
+				await QRCode.toFile(qrCodeFilePath, text);
+				const caption = `Here is your QR code for: "${text}"`;
+				
+				await sock.sendMessage(chatId, { image: { url: qrCodeFilePath }, caption: caption }, { quoted: msg });
+				console.log(`Response: ${caption}`);
+
+				fs.unlink(qrCodeFilePath, (err) => {
+					if (err) {
+						console.error('Error deleting QR code file:', err);
+					} else {
+						console.log('QR code file deleted successfully');
+					}
+				});
+
+				await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+			} catch (error) {
+				console.error('Error generating or sending QR code:', error);
+				await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+			}
+		}
+
+		// Mathematics 
 		if (messageBody.startsWith('.mtk ')) {
 			const expression = messageBody.replace('.mtk ', '').trim();
 			await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
