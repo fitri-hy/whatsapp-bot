@@ -103,3 +103,5 @@ cd whatsapp-bot
 ```
 npm start
 ```
+
+Don't forget to Fork and give me a star
