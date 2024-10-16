@@ -14,7 +14,7 @@
 | Command       |  Deskription      |
 |---------------|-------------------|
 |.gemini-ai		|To use Gemini AI, example: **.gemini hello**|
-|.gemini-img	|Analyze the quoted image: example quote image **..gemini-img What is this picture?**|
+|.gemini-img	|Analyze the quoted image: example quote image **.gemini-img What is this picture?**|
 |.sticker       |Convert images into stickers, example: quote image **.sticker**|
 |.to-voice		|Convert text to voice, example: **.to-voice hello words**|
 |.wiki-ai		|Get wiki content based on a query, example: **.wiki-ai cat**|
