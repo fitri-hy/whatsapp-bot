@@ -1,3 +1,5 @@
+const { downloadMediaMessage } = require('@whiskeysockets/baileys');
+const { exec } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const { GeminiMessage } = require('./Gemini');
@@ -8,7 +10,23 @@ async function Message(sock, messages) {
     const msg = messages[0];
     const chatId = msg.key.remoteJid;
     const messageBody = (msg.message && msg.message.conversation) || (msg.message && msg.message.extendedTextMessage && msg.message.extendedTextMessage.text) || '';
-
+	function containsBadWords(message) {
+		const regex = new RegExp(`\\b(${config.BAD_WORDS.join('|')})\\b`, 'i');
+		return regex.test(message);
+	}
+	
+	// Deteksi dan hapus pesan jika ada kata kasar
+	if (config.ANTI_BADWORDS) {
+		if (containsBadWords(messageBody)) {
+			try {
+				await sock.sendMessage(chatId, { delete: msg.key });
+				console.log(`Message deleted: ${msg.key.id}`);
+			} catch (error) {
+				console.error('Error deleting message:', error);
+			}
+		}
+	}
+	
     // Hapus pesan jika terdapat url/domain
     if (config.ANTI_LINK) {
             const urlRegex = /https?:\/\/[^\s]+|(?:www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}/g; 
@@ -25,7 +43,49 @@ async function Message(sock, messages) {
 	
     // Self Message
     if (msg.key.fromMe === config.SELF_BOT_MESSAGE) {
+		
+		// Quote Image for Generate Sticker
+		if (messageBody === '.sticker') {
+			const quotedMessage = msg.message.extendedTextMessage?.contextInfo?.quotedMessage;
 
+			if (quotedMessage?.imageMessage) {
+				await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+
+				const buffer = await downloadMediaMessage(
+					{ message: quotedMessage },
+					'buffer',
+					{},
+					{ reuploadRequest: sock.updateMediaMessage }
+				);
+
+				const inputFilePath = path.join(__dirname, 'input-image.jpg');
+				const outputStickerPath = path.join(__dirname, 'output-sticker.webp');
+				const ffmpegPath = path.join(__dirname, '../plugin/ffmpeg.exe');
+
+				fs.writeFileSync(inputFilePath, buffer);
+
+				const ffmpegCommand = `"${ffmpegPath}" -i "${inputFilePath}" -vf "scale=512:512" -vcodec libwebp -lossless 1 -qscale 80 -loop 0 -an -vsync 0 -preset default -t 5 "${outputStickerPath}"`;
+
+				exec(ffmpegCommand, async (error, stdout, stderr) => {
+					if (error) {
+						await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+						return;
+					}
+
+					const stickerBuffer = fs.readFileSync(outputStickerPath);
+					await sock.sendMessage(chatId, { sticker: stickerBuffer }, { quoted: msg });
+
+					fs.unlinkSync(inputFilePath);
+					fs.unlinkSync(outputStickerPath);
+
+					await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+				});
+			} else {
+				await sock.sendMessage(chatId, { text: "Tidak ada gambar yang di-quote untuk dibuat sticker." }, { quoted: msg });
+				await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+			}
+		}
+		
         // Gemini AI
         if (messageBody.startsWith('.gemini ')) {
             const question = messageBody.slice(8).trim();
@@ -256,6 +316,44 @@ async function Message(sock, messages) {
                 fs.writeFileSync(configPath, JSON.stringify(config, null, 2), 'utf-8');
         
                 const responseMessage = `Anti link nonactived`;
+                await sock.sendMessage(chatId, { text: responseMessage }, { quoted: msg });
+                console.log(`Response: ${responseMessage}`);
+        
+                await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+            } catch (error) {
+                console.error('Error sending message:', error);
+                await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+            }
+        }
+		
+		// Badwords Actived
+        if (messageBody === '.badwords-true') {
+            await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+            try {
+                config.ANTI_BADWORDS = true;
+        
+                fs.writeFileSync(configPath, JSON.stringify(config, null, 2), 'utf-8');
+        
+                const responseMessage = "Badwords actived";
+                await sock.sendMessage(chatId, { text: responseMessage }, { quoted: msg });
+                console.log(`Response: ${responseMessage}`);
+        
+                await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+            } catch (error) {
+                console.error('Error sending message:', error);
+                await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+            }
+        }
+        
+        // Badwords Non-Actived
+        if (messageBody === '.badwords-false') {
+            await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+            try {
+                config.ANTI_BADWORDS = false;
+        
+                fs.writeFileSync(configPath, JSON.stringify(config, null, 2), 'utf-8');
+        
+                const responseMessage = "Badwords nonactived";
                 await sock.sendMessage(chatId, { text: responseMessage }, { quoted: msg });
                 console.log(`Response: ${responseMessage}`);
         

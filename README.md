@@ -5,22 +5,22 @@
 
 ### Command
 
-- Ask Gemini AI
-  `.gemini <question>`
-- Add Member (Group)
-  `.add <number>`
-- Kick Member (Group)
-  `.kick <@mention>`
-- Promote Member to Admin (Group)
-  `.promote <@mention>`
-- Demote Admin to Member (Group)
-  `.demote <@mention>`
-- Close Chat Room (Group)
-  `.chat-close`
-- Open Chat Room (Group)
-  `.chat-open`
-- Enable Auto Delete Link (Group)
-  `.antilink-true`
-- Disable Auto Delete Link (Group)
-  `.antilink-false`
-  
+| Command       |  Deskription      |
+|---------------|-------------------|
+|.gemini        |To use Gemini AI, example: **.gemini hello**|
+|.sticker       |Convert images into stickers, for example: quote image **.sticker**|
+
+### Group Command
+
+| Command           |  Deskription      |
+|-------------------|-------------------|
+|.add               |Adding a new member in group, example: **.add 628xxxxx**|
+|.kick              |Kicking members of the group, example: **.kick @mention**|
+|.promote           |Promote members in admin group, example: **.promote @mention**|
+|.demote            |Demote admins in group members, example: **.demote @mention**|
+|.chat-close        |Only admins can send messages in groups|
+|.chat-open         |Everyone can send messages in the group|
+|.antilink-true     |Enable deleting messages containing links in group|
+|.antilink-false    |Disables deleting messages containing links in groups|
+|.badwords-true     |Enable deleting messages containing badwords in group|
+|.badwords-false    |Disables deleting messages containing badwords in groups|
