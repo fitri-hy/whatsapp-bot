@@ -18,10 +18,14 @@
 |.sticker       		|Convert images into stickers, example: quote image **.sticker**|
 |.to-voice				|Convert text to voice, example: **.to-voice hello words**|
 |.wiki-ai				|Get wiki content based on a query, example: **.wiki-ai kucing**|
-|.wiki-search			|Gets a list of wiki contents based on a query, example: **.wiki-search kucing**|
-|.wiki-img				|Gets Images from wiki based on query, example: **.wiki-image kucing**|
-|.weather				|Gets weather data based on city name, example: **.weather jakarta**|
-|.translate-{langID}	|Translate into various languages, example: **.translate-en apa kabar**|
+|.wiki-search			|Get a list of wiki contents based on a query, example: **.wiki-search kucing**|
+|.wiki-img				|Get Images from wiki based on query, example: **.wiki-image kucing**|
+|.weather				|Get weather data based on city name, example: **.weather jakarta**|
+|.translate				|Translate into various languages, example: **.translate-en apa kabar**|
+|.surah					|Get the entire surah, example: **.surah 1**|
+|.surah-detail			|Get a specific verse from a surah, example: **.surah 1:4**|
+|.country				|Get country information, example: **.country indonesia**|
+|.seo					|Check SEO status by domain, example: **.seo youtube.com**|
 
 ### Group Command
 

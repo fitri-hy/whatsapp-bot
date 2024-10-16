@@ -7,6 +7,9 @@ const { GeminiMessage, GeminiImage } = require('./Gemini');
 const { WikipediaSearch, WikipediaAI, WikipediaImage } = require('./Wikipedia');
 const { Weather } = require('./Weather');
 const { Translate } = require('./Translates');
+const { Surah, SurahDetails } = require('./Quran');
+const { Country } = require('./Country');
+const { CheckSEO } = require('./SEO');
 const configPath = path.join(__dirname, '../config.json');
 const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
 
@@ -81,6 +84,98 @@ async function Message(sock, messages) {
     // Self Message
     if (msg.key.fromMe === config.SELF_BOT_MESSAGE) {
 		
+		// Check SEO
+		if (messageBody.startsWith('.seo ')) {
+			const domain = messageBody.replace('.seo ', '').trim();
+			await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+
+			try {
+				const responseMessage = await CheckSEO(domain); 
+
+				// Format the response message into a readable string
+				const formattedMessage = 
+					'- SEO Success Rate: ' + responseMessage.seoSuccessRate + '\n' +
+					'- Title: ' + responseMessage.title + '\n' +
+					'- Meta Description: ' + responseMessage.metaDescription + '\n' +
+					'- Meta Keywords: ' + responseMessage.metaKeywords + '\n' +
+					'- Open Graph Title: ' + responseMessage.ogTitle + '\n' +
+					'- Open Graph Description: ' + responseMessage.ogDescription + '\n' +
+					'- Open Graph Image: ' + responseMessage.ogImage + '\n' +
+					'- Canonical URL: ' + responseMessage.canonicalUrl + '\n' +
+					'- Is Indexable: ' + (responseMessage.isIndexable ? 'Yes' : 'No');
+
+				await sock.sendMessage(chatId, { text: formattedMessage.trim() }, { quoted: msg });
+				console.log(`Response: ${formattedMessage}`);
+
+				await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+			} catch (error) {
+				console.error('Error sending message:', error);
+				await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+			}
+		}
+		
+		// Search Country Detail
+		if (messageBody.startsWith('.country ')) {
+			const countryName = messageBody.replace('.country ', '').trim();
+			await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+			
+			try {
+				const responseMessage = await Country(countryName); 
+
+				await sock.sendMessage(chatId, { text: responseMessage }, { quoted: msg });
+				console.log(`Response: ${responseMessage}`);
+
+				await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+			} catch (error) {
+				console.error('Error sending message:', error);
+				await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+			}
+		}
+		
+		// Search Surah
+		if (messageBody.startsWith('.surah ')) {
+			const surahId = parseInt(messageBody.split(' ')[1]);
+			await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+			
+			try {
+				const responseMessage = await Surah(surahId); 
+
+				await sock.sendMessage(chatId, { text: responseMessage }, { quoted: msg });
+				console.log(`Response: ${responseMessage}`);
+
+				await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+			} catch (error) {
+				console.error('Error sending message:', error);
+				await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+			}
+		}
+		
+		// Search Specific Surah
+		if (messageBody.startsWith('.surah-detail ')) {
+			const [surahPart, ayahPart] = messageBody.split(' ')[1].split(':');
+			const surahId = parseInt(surahPart);
+			const ayahId = ayahPart ? parseInt(ayahPart) : null;
+
+			await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+
+			try {
+				if (ayahId) {
+					const responseMessage = await SurahDetails(surahId, ayahId);
+					await sock.sendMessage(chatId, { text: responseMessage }, { quoted: msg });
+					console.log(`Response: ${responseMessage}`);
+				} else {
+					const responseMessage = await getSurahDetails(surahId);
+					await sock.sendMessage(chatId, { text: responseMessage }, { quoted: msg });
+					console.log(`Response: ${responseMessage}`);
+				}
+
+				await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+			} catch (error) {
+				console.error('Error sending message:', error);
+				await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+			}
+		}
+	
 		// Translate
 		if (messageBody.startsWith('.translate-')) {
 			const langId = messageBody.split(' ')[0].split('-')[1];
