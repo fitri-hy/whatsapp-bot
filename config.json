@@ -1,7 +1,7 @@
 {
   "SELF_BOT_UTILITY": true,
   "SELF_BOT_MESSAGE": false,
-  "GEMINI_API": "AIzaSyDV81pjgXW8CrOwP0UNnPk4stLHXcMA4J0",
+  "GEMINI_API": "AIzaxxxxxxxxxxxxxxx",
   "GEMINI_PROMPT": "Balas pesan ini dengan singkat",
   "ANTI_LINK": false,
   "ANTI_BADWORDS": false,

@@ -32,14 +32,14 @@
 |.mtk					|Multi math addition, example: `.mtk 1-1+1*1:1`|
 |.qrcode				|Generate QRcode Image, example: `.qrcode hello words`|
 |.{file-type}			|Generate QRcode Image, example: `.pdf javascript`|
-|.aes-enc   			|Encrypts a string to AES, example `.aes-enc hello words`|
-|.aes-dec   			|Dencrypts a string to AES, example `.aes-dec hello words`|
-|.camellia-enc   		|Comming Soon ...|
-|.camellia-dec   		|Comming Soon ...|
-|.sha   				|Comming Soon ...|
-|.md5   				|Comming Soon ...|
-|.ripemd   				|Comming Soon ...|
-|.bcrypt   				|Comming Soon ...|
+|.aes-enc   			|Encrypts string to AES, example `.aes-enc hello words`|
+|.aes-dec   			|Dencrypts string to AES, example `.aes-dec fb3a838c0081abd85717ffdcc79f8edb`|
+|.camellia-enc   		|Encrypts string to Camellia, example `.camellia-enc hello words`|
+|.camellia-dec   		|Dencrypts string to Camellia, example `.camellia-dec 5afe9e0176eaf2242c4aad209127796e`|
+|.sha   				|Encrypts string to SHA, example `.sha hello words`|
+|.md5   				|Encrypts string to MD5, example `.md5 hello words`|
+|.ripemd   				|Encrypts string to Ripemd, example `.ripemd hello words`|
+|.bcrypt   				|Encrypts string to Bcrypt, example `.bcrypt hello words`|
 |**News Feature**   	|Comming Soon ...|
 
 **File Type Support**
