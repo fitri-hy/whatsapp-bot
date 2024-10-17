@@ -31,7 +31,6 @@
 |.words					|Counting words, example: `.words hello words`|
 |.mtk					|Multi math addition, example: `.mtk 1-1+1*1:1`|
 |.qrcode				|Generate QRcode Image, example: `.qrcode hello words`|
-|.{file-type}			|Generate QRcode Image, example: `.pdf javascript`|
 |.aes-enc   			|Encrypts string to AES, example `.aes-enc hello words`|
 |.aes-dec   			|Dencrypts string to AES, example `.aes-dec fb3a838c0081abd85717ffdcc79f8edb`|
 |.camellia-enc   		|Encrypts string to Camellia, example `.camellia-enc hello words`|
@@ -40,9 +39,10 @@
 |.md5   				|Encrypts string to MD5, example `.md5 hello words`|
 |.ripemd   				|Encrypts string to Ripemd, example `.ripemd hello words`|
 |.bcrypt   				|Encrypts string to Bcrypt, example `.bcrypt hello words`|
+|.{file-type}			|Generate QRcode Image, example: `.pdf javascript`|
 |**News Feature**   	|Comming Soon ...|
 
-**File Type Support**
+**{File-Type} Support**
 ```
 .pdf, .doc, .docx, .xls, .xlsx, .ppt, .pptx, .txt, .html, .htm, .csv, .rtf, .odt, .ods, .odp, .epub, .zip, .gz
 ```
