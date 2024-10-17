@@ -14,6 +14,7 @@ const { CheckSEO } = require('./SEO');
 const { FileSearch } = require('./FileSearch');
 const { AesEncryption, AesDecryption, CamelliaEncryption, CamelliaDecryption, ShaEncryption, Md5Encryption, RipemdEncryption, BcryptEncryption } = require('./Tools.js');
 const { YoutubeVideo, YoutubeAudio, FacebookVideo, FacebookAudio, TwitterVideo, TwitterAudio, InstagramVideo, InstagramAudio, TikTokVideo, TikTokAudio, VimeoVideo, VimeoAudio  } = require('./Downloader');
+const { DetikNews, DetikViral, DetikLatest } = require('./Detik');
 const configPath = path.join(__dirname, '../config.json');
 const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
 
@@ -106,6 +107,58 @@ async function Message(sock, messages) {
 			}
 		}
 		
+		// Detik Search Article
+		if (messageBody.startsWith('.detik-search ')) {
+			const query = messageBody.split(' ')[1];
+			await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+
+			try {
+				const articles = await DetikNews(query);
+				const responseText = articles.map(article => `${article.title}\n${article.url}`).join('\n\n');
+			  
+				await sock.sendMessage(chatId, { text: responseText }, { quoted: msg });
+				console.log(`Response: Success Sending`);
+				await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+			} catch (error) {
+				console.error('Error sending search results:', error);
+				await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+			}
+		}
+		
+		// Detik Viral Article
+		if (messageBody.startsWith('.detik-viral')) {
+			await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+
+			try {
+				const articles = await DetikViral();
+				const responseText = articles.map(article => `${article.title}\n${article.url}`).join('\n\n');
+			  
+				await sock.sendMessage(chatId, { text: responseText }, { quoted: msg });
+				console.log(`Response: Success Sending`);
+				await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+			} catch (error) {
+				console.error('Error sending viral news:', error);
+				await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+			}
+		}
+
+		// Detik News Article
+		if (messageBody.startsWith('.detik-news')) {
+			await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+
+			try {
+				const articles = await DetikLatest();
+				const responseText = articles.map(article => `${article.title}\n${article.url}`).join('\n\n');
+		  
+				await sock.sendMessage(chatId, { text: responseText }, { quoted: msg });
+				console.log(`Response: Success Sending`);
+				await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+			} catch (error) {
+				console.error('Error sending latest news:', error);
+				await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+			}
+		}
+  
 		// Twitter Video to MP4
 		if (messageBody.startsWith('.twdl-mp4 ')) {
 		  const url = messageBody.split(' ')[1];

@@ -51,6 +51,9 @@
 |.tkdl-mp3   			|Convert Tiktok video URL to MP3, example `.tkdl-mp3 url`|
 |.vmdl-mp4   			|Convert Vimeo video URL to MP4, example `.vmdl-mp4 url`|
 |.vmdl-mp3   			|Convert Vimeo video URL to MP3, example `.vmdl-mp3 url`|
+|.detik-search			|Get articles from search, example `.detik-search indonesia|
+|.detik-viral			|Get the viral articles, example `.detik-viral`|
+|.detik-news   			|Get the latest articles, example `.detik-news`|
 |.{file-type}			|Generate QRcode Image, example: `.pdf javascript`|
 |**News Feature**   	|Comming Soon ...|
 
