@@ -12,6 +12,7 @@ const { Surah, SurahDetails } = require('./Quran');
 const { Country } = require('./Country');
 const { CheckSEO } = require('./SEO');
 const { FileSearch } = require('./FileSearch');
+const { AesEncryption, AesDecryption, CamelliaEncryption, CamelliaDecryption, ShaEncryption, Md5Encryption, RipemdEncryption, BcryptEncryption } = require('./Tools.js');
 const configPath = path.join(__dirname, '../config.json');
 const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
 
@@ -93,54 +94,6 @@ async function Message(sock, messages) {
 				const url = filePath;
 				const caption = 
 					'*Whastapp Bot* \n\n' + 
-					'Gemini\n' + 
-					'★ *.gemini-ai* _<text>_\n' + 
-					'★ *.gemini-img* _<text>_ !quote\n\n' + 
-					'Misc\n' + 
-					'★ *.sticker* !quote\n' + 
-					'★ *.to-voice* _<text>_\n' + 
-					'★ *.wiki-ai* _<text>_\n' + 
-					'★ *.wiki-search* _<text>_\n' + 
-					'★ *.wiki-img* _<text>_\n' + 
-					'★ *.weather* _<city>_\n' + 
-					'★ *.translate* _<text>_\n' + 
-					'★ *.surah* _<value>_\n' + 
-					'★ *.surah-detail* _<value:value>_\n' + 
-					'★ *.country* _<country>_\n' + 
-					'★ *.seo* _<domain>_\n' + 
-					'★ *.words* _<text>_\n' + 
-					'★ *.mtk* _<1+1-1*1:1>_\n' + 
-					'★ *.qrcode* _<text>_\n\n' + 
-					'File Search\n' + 
-					'★ *.pdf* _<text>_\n' + 
-					'★ *.doc* _<text>_\n' + 
-					'★ *.docx* _<text>_\n' + 
-					'★ *.xls* _<text>_\n' + 
-					'★ *.xlsx* _<text>_\n' + 
-					'★ *.ppt* _<text>_\n' + 
-					'★ *.pptx* _<text>_\n' + 
-					'★ *.txt* _<text>_\n' + 
-					'★ *.html* _<text>_\n' + 
-					'★ *.htm* _<text>_\n' + 
-					'★ *.csv* _<text>_\n' + 
-					'★ *.rtf* _<text>_\n' + 
-					'★ *.odt* _<text>_\n' + 
-					'★ *.ods* _<text>_\n' + 
-					'★ *.odp* _<text>_\n' + 
-					'★ *.epub* _<text>_\n' + 
-					'★ *.zip* _<text>_\n' + 
-					'★ *.gz* _<text>_\n\n' + 
-					'Group\n' + 
-					'★ *.add* _<628xx>_\n' + 
-					'★ *.kick* _<@mention>_\n' + 
-					'★ *.promote* _<@mention>_\n' + 
-					'★ *.demote* _<@mention>_\n' + 
-					'★ *.chat-close*\n' + 
-					'★ *.chat-open*\n' + 
-					'★ *.antilink-true*\n' + 
-					'★ *.antilink-false*\n' + 
-					'★ *.badwords-true*\n' + 
-					'★ *.badwords-false*\n\n' + 
 					'Source : https://github.com/fitri-hy/whatsapp-bot';
 				await sock.sendMessage(chatId, {image: {url: url}, caption: caption}, { quoted: msg });
 				console.log(`Response: Success`);
@@ -148,6 +101,120 @@ async function Message(sock, messages) {
 				await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
 			} catch (error) {
 				console.error('Error sending message:', error);
+				await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+			}
+		}
+		
+		// AES Encryption & Decryption
+		if (messageBody.startsWith('.aes-enc ')) {
+			const text = messageBody.replace('.aes-enc ', '').trim();
+			const getkey = "b14ca5898a4e4133bbce2ea2315a1916";
+			await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+			try {
+				const encryptedText = await AesEncryption(text, getkey);
+				await sock.sendMessage(chatId, { text: `Result AES Encryption: *${encryptedText}*` }, { quoted: msg });
+				await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+			} catch (error) {
+				console.log(error)
+				await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+			}
+		}
+
+		if (messageBody.startsWith('.aes-dec ')) {
+			const encryptedText = messageBody.replace('.aes-dec ', '').trim();
+			const getkey = "b14ca5898a4e4133bbce2ea2315a1916";
+			await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+			try {
+				const decryptedText = await AesDecryption(encryptedText, getkey);
+				await sock.sendMessage(chatId, { text: `Result AES Decryption: *${decryptedText}*` }, { quoted: msg });
+				await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+			} catch (error) {
+				console.log(error)
+				await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+			}
+		}
+
+		// Camellia Encryption & Decryption
+		if (messageBody.startsWith('.camellia-enc ')) {
+			const text = messageBody.replace('.camellia-enc ', '').trim();
+			const getkey = "0123456789abcdeffedcba9876543210";
+			await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+			try {
+				const encryptedText = await CamelliaEncryption(text, getkey);
+				await sock.sendMessage(chatId, { text: `Result Camellia Encryption: *${encryptedText}*` }, { quoted: msg });
+				await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+			} catch (error) {
+				console.log(error)
+				await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+			}
+		}
+
+		if (messageBody.startsWith('.camellia-dec ')) {
+			const encryptedText = messageBody.replace('.camellia-dec ', '').trim();
+			const getkey = "0123456789abcdeffedcba9876543210";
+			await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+			try {
+				const decryptedText = await CamelliaDecryption(encryptedText, getkey);
+				await sock.sendMessage(chatId, { text: `Result Camellia Decryption: *${decryptedText}*` }, { quoted: msg });
+				await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+			} catch (error) {
+				console.log(error)
+				await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+			}
+		}
+
+		// SHA Hashing
+		if (messageBody.startsWith('.sha ')) {
+			const text = messageBody.replace('.sha ', '').trim();
+			await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+			try {
+				const hashedText = await ShaEncryption(text);
+				await sock.sendMessage(chatId, { text: `Result SHA Hashing: *${hashedText}*` }, { quoted: msg });
+				await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+			} catch (error) {
+				console.log(error)
+				await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+			}
+		}
+
+		// MD5 Hashing
+		if (messageBody.startsWith('.md5 ')) {
+			const text = messageBody.replace('.md5 ', '').trim();
+			await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+			try {
+				const hashedText = await Md5Encryption(text);
+				await sock.sendMessage(chatId, { text: `Result MD5 Hashing: *${hashedText}*` }, { quoted: msg });
+				await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+			} catch (error) {
+				console.log(error)
+				await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+			}
+		}
+
+		// RIPEMD Hashing
+		if (messageBody.startsWith('.ripemd ')) {
+			const text = messageBody.replace('.ripemd ', '').trim();
+			await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+			try {
+				const hashedText = await RipemdEncryption(text);
+				await sock.sendMessage(chatId, { text: `Result RIPEMD Hashing: *${hashedText}*` }, { quoted: msg });
+				await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+			} catch (error) {
+				console.log(error)
+				await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+			}
+		}
+
+		// Bcrypt Hashing
+		if (messageBody.startsWith('.bcrypt ')) {
+			const text = messageBody.replace('.bcrypt ', '').trim();
+			await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+			try {
+				const hashedText = await BcryptEncryption(text);
+				await sock.sendMessage(chatId, { text: `Result Bcrypt Hashing: *${hashedText}*` }, { quoted: msg });
+				await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+			} catch (error) {
+				console.log(error)
 				await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
 			}
 		}
@@ -537,35 +604,32 @@ async function Message(sock, messages) {
 		
 		// Gemini Image Analysis
 		if (messageBody.startsWith('.gemini-img ')) {
-				const quotedMessage = msg.message.extendedTextMessage?.contextInfo?.quotedMessage;
-				const getPrompt = messageBody.replace('.gemini-img ', '').trim();
+			const quotedMessage = msg.message.extendedTextMessage?.contextInfo?.quotedMessage;
+			const getPrompt = messageBody.replace('.gemini-img ', '').trim();
 
-				if (quotedMessage?.imageMessage) {
-					await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
-
-					const buffer = await downloadMediaMessage(
-						{ message: quotedMessage },
-						'buffer'
-					);
-
-					const inputFilePath = path.join(__dirname, '../input-image.jpg');
-					fs.writeFileSync(inputFilePath, buffer);
-
-					try {
-						const geminiPromptImg = `${config.GEMINI_PROMPT}: ${getPrompt}`;
-						const analysisResult = await GeminiImage(inputFilePath, geminiPromptImg);
-						await sock.sendMessage(chatId, { text: analysisResult }, { quoted: msg });
-						console.log(`Response: ${analysisResult}`);
-					} catch (error) {
-					   await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
-					} finally {
-						fs.unlinkSync(inputFilePath);
-						await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
-					}
-				} else {
-					await sock.sendMessage(chatId, { text: "Tidak ada gambar yang di-quote untuk dianalisis." }, { quoted: msg });
-					await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+			if (quotedMessage?.imageMessage) {
+				await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+				const buffer = await downloadMediaMessage(
+					{ message: quotedMessage },
+					'buffer'
+				);
+				const inputFilePath = path.join(__dirname, '../input-image.jpg');
+				fs.writeFileSync(inputFilePath, buffer);
+				try {
+					const geminiPromptImg = `${config.GEMINI_PROMPT}: ${getPrompt}`;
+					const analysisResult = await GeminiImage(inputFilePath, geminiPromptImg);
+					await sock.sendMessage(chatId, { text: analysisResult }, { quoted: msg });
+					console.log(`Response: ${analysisResult}`);
+				} catch (error) {
+					  await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+				} finally {
+					fs.unlinkSync(inputFilePath);
+					await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
 				}
+			} else {
+				await sock.sendMessage(chatId, { text: "Tidak ada gambar yang di-quote untuk dianalisis." }, { quoted: msg });
+				await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+			}
 		}
        
     }

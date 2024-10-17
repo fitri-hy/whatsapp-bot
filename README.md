@@ -32,6 +32,14 @@
 |.mtk					|Multi math addition, example: `.mtk 1-1+1*1:1`|
 |.qrcode				|Generate QRcode Image, example: `.qrcode hello words`|
 |.{file-type}			|Generate QRcode Image, example: `.pdf javascript`|
+|.aes-enc   			|Encrypts a string to AES, example `.aes-enc hello words`|
+|.aes-dec   			|Dencrypts a string to AES, example `.aes-dec hello words`|
+|.camellia-enc   		|Comming Soon ...|
+|.camellia-dec   		|Comming Soon ...|
+|.sha   				|Comming Soon ...|
+|.md5   				|Comming Soon ...|
+|.ripemd   				|Comming Soon ...|
+|.bcrypt   				|Comming Soon ...|
 |**News Feature**   	|Comming Soon ...|
 
 **File Type Support**
