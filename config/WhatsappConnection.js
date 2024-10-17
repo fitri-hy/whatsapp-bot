@@ -1,9 +1,14 @@
 const { default: makeWASocket, useMultiFileAuthState, DisconnectReason } = require('@whiskeysockets/baileys');
+const P = require('pino');
 const Message = require('../controllers/Message');
 
 async function startBot() {
     const { state, saveCreds } = await useMultiFileAuthState('auth_info');
-    const sock = makeWASocket({ auth: state, printQRInTerminal: true });
+    const sock = makeWASocket({ 
+		auth: state, 
+		printQRInTerminal: true,
+        logger: P({ level: 'warn' }),
+	});
 
     sock.ev.on('creds.update', saveCreds);
 

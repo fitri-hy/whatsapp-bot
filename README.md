@@ -39,6 +39,18 @@
 |.md5   				|Encrypts string to MD5, example `.md5 hello words`|
 |.ripemd   				|Encrypts string to Ripemd, example `.ripemd hello words`|
 |.bcrypt   				|Encrypts string to Bcrypt, example `.bcrypt hello words`|
+|.ytdl-mp4   			|Convert YouTube video URL to MP4, example `.ytdl-mp4 url`|
+|.ytdl-mp3   			|Convert YouTube video URL to MP3, example `.ytdl-mp3 url`|
+|.fbdl-mp4   			|Convert Facebook video URL to MP4, example `.fbdl-mp4 url`|
+|.fbdl-mp3   			|Convert Facebook video URL to MP3, example `.fbdl-mp3 url`|
+|.twdl-mp4   			|Convert Twitter / X video URL to MP4, example `.twdl-mp4 url`|
+|.twdl-mp3   			|Convert Twitter / X video URL to MP3, example `.twdl-mp3 url`|
+|.igdl-mp4   			|Convert Instagram video URL to MP4, example `.igdl-mp4 url`|
+|.igdl-mp3   			|Convert Instagram video URL to MP3, example `.igdl-mp3 url`|
+|.tkdl-mp4   			|Convert Tiktok video URL to MP4, example `.tkdl-mp4 url`|
+|.tkdl-mp3   			|Convert Tiktok video URL to MP3, example `.tkdl-mp3 url`|
+|.vmdl-mp4   			|Convert Vimeo video URL to MP4, example `.vmdl-mp4 url`|
+|.vmdl-mp3   			|Convert Vimeo video URL to MP3, example `.vmdl-mp3 url`|
 |.{file-type}			|Generate QRcode Image, example: `.pdf javascript`|
 |**News Feature**   	|Comming Soon ...|
 

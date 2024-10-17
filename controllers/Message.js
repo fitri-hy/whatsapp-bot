@@ -13,6 +13,7 @@ const { Country } = require('./Country');
 const { CheckSEO } = require('./SEO');
 const { FileSearch } = require('./FileSearch');
 const { AesEncryption, AesDecryption, CamelliaEncryption, CamelliaDecryption, ShaEncryption, Md5Encryption, RipemdEncryption, BcryptEncryption } = require('./Tools.js');
+const { YoutubeVideo, YoutubeAudio, FacebookVideo, FacebookAudio, TwitterVideo, TwitterAudio, InstagramVideo, InstagramAudio, TikTokVideo, TikTokAudio, VimeoVideo, VimeoAudio  } = require('./Downloader');
 const configPath = path.join(__dirname, '../config.json');
 const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
 
@@ -103,6 +104,356 @@ async function Message(sock, messages) {
 				console.error('Error sending message:', error);
 				await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
 			}
+		}
+		
+		// Twitter Video to MP4
+		if (messageBody.startsWith('.twdl-mp4 ')) {
+		  const url = messageBody.split(' ')[1];
+		  await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+
+		  try {
+			const outputFilePath = path.join(__dirname, "../upload", "twdl-video.mp4");
+			await TwitterVideo(url, outputFilePath);
+
+			await sock.sendMessage(chatId, { video: { url: outputFilePath }, caption: "This is the video you asked for!" }, { quoted: msg });
+			console.log(`Response: Success sending video ${outputFilePath}`);
+			await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+
+			const deleteFile = (filePath) => {
+				fs.unlink(filePath, (err) => {
+					if (err) {
+						console.error(`Error deleting file: ${err.message}`);
+					} else {
+					  return;
+					}
+				});
+			};
+			deleteFile(outputFilePath);
+		  } catch (error) {
+			console.error('Error sending message:', error);
+			await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+		  }
+		}
+
+		// Twitter Video to MP3
+		if (messageBody.startsWith('.twdl-mp3 ')) {
+		  const url = messageBody.split(' ')[1];
+		  await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+
+		  try {
+			const outputFilePath = path.join(__dirname, "../upload", "twdl-audio.mp3");
+			await TwitterAudio(url, outputFilePath);
+
+			await sock.sendMessage(chatId, { audio: { url: outputFilePath }, mimetype: 'audio/mp4' }, { quoted: msg });
+			console.log(`Response: Success sending video ${outputFilePath}`);
+			await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+
+			const deleteFile = (filePath) => {
+				fs.unlink(filePath, (err) => {
+					if (err) {
+						console.error(`Error deleting file: ${err.message}`);
+					} else {
+					  return;
+					}
+				});
+			};
+			deleteFile(outputFilePath);
+		  } catch (error) {
+			console.error('Error sending message:', error);
+			await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+		  }
+		}
+		
+		// Instagram Video to MP4
+		if (messageBody.startsWith('.igdl-mp4 ')) {
+		  const url = messageBody.split(' ')[1];
+		  await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+
+		  try {
+			const outputFilePath = path.join(__dirname, "../upload", "igdl-video.mp4");
+			await InstagramVideo(url, outputFilePath);
+
+			await sock.sendMessage(chatId, { video: { url: outputFilePath }, caption: "This is the video you asked for!" }, { quoted: msg });
+			console.log(`Response: Success sending video ${outputFilePath}`);
+			await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+
+			const deleteFile = (filePath) => {
+				fs.unlink(filePath, (err) => {
+					if (err) {
+						console.error(`Error deleting file: ${err.message}`);
+					} else {
+					  return;
+					}
+				});
+			};
+			deleteFile(outputFilePath);
+		  } catch (error) {
+			console.error('Error sending message:', error);
+			await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+		  }
+		}
+
+		// Instagram Video to MP3
+		if (messageBody.startsWith('.igdl-mp3 ')) {
+		  const url = messageBody.split(' ')[1];
+		  await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+
+		  try {
+			const outputFilePath = path.join(__dirname, "../upload", "igdl-audio.mp3");
+			await InstagramAudio(url, outputFilePath);
+
+			await sock.sendMessage(chatId, { audio: { url: outputFilePath }, mimetype: 'audio/mp4' }, { quoted: msg });
+			console.log(`Response: Success sending video ${outputFilePath}`);
+			await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+
+			const deleteFile = (filePath) => {
+				fs.unlink(filePath, (err) => {
+					if (err) {
+						console.error(`Error deleting file: ${err.message}`);
+					} else {
+					  return;
+					}
+				});
+			};
+			deleteFile(outputFilePath);
+		  } catch (error) {
+			console.error('Error sending message:', error);
+			await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+		  }
+		}
+		
+		// TikTok Video to MP4
+		if (messageBody.startsWith('.tkdl-mp4 ')) {
+		  const url = messageBody.split(' ')[1];
+		  await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+
+		  try {
+			const outputFilePath = path.join(__dirname, "../tkdl", "twdl-video.mp4");
+			await TikTokVideo(url, outputFilePath);
+
+			await sock.sendMessage(chatId, { video: { url: outputFilePath }, caption: "This is the video you asked for!" }, { quoted: msg });
+			console.log(`Response: Success sending video ${outputFilePath}`);
+			await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+
+			const deleteFile = (filePath) => {
+				fs.unlink(filePath, (err) => {
+					if (err) {
+						console.error(`Error deleting file: ${err.message}`);
+					} else {
+					  return;
+					}
+				});
+			};
+			deleteFile(outputFilePath);
+		  } catch (error) {
+			console.error('Error sending message:', error);
+			await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+		  }
+		}
+
+		// TikTok Video to MP3
+		if (messageBody.startsWith('.tkdl-mp3 ')) {
+		  const url = messageBody.split(' ')[1];
+		  await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+
+		  try {
+			const outputFilePath = path.join(__dirname, "../upload", "tkdl-audio.mp3");
+			await TikTokAudio(url, outputFilePath);
+
+			await sock.sendMessage(chatId, { audio: { url: outputFilePath }, mimetype: 'audio/mp4' }, { quoted: msg });
+			console.log(`Response: Success sending video ${outputFilePath}`);
+			await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+
+			const deleteFile = (filePath) => {
+				fs.unlink(filePath, (err) => {
+					if (err) {
+						console.error(`Error deleting file: ${err.message}`);
+					} else {
+					  return;
+					}
+				});
+			};
+			deleteFile(outputFilePath);
+		  } catch (error) {
+			console.error('Error sending message:', error);
+			await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+		  }
+		}
+		
+		// Vimeo Video to MP4
+		if (messageBody.startsWith('.vmdl-mp4 ')) {
+		  const url = messageBody.split(' ')[1];
+		  await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+
+		  try {
+			const outputFilePath = path.join(__dirname, "../tkdl", "vmdl-video.mp4");
+			await VimeoVideo(url, outputFilePath);
+
+			await sock.sendMessage(chatId, { video: { url: outputFilePath }, caption: "This is the video you asked for!" }, { quoted: msg });
+			console.log(`Response: Success sending video ${outputFilePath}`);
+			await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+
+			const deleteFile = (filePath) => {
+				fs.unlink(filePath, (err) => {
+					if (err) {
+						console.error(`Error deleting file: ${err.message}`);
+					} else {
+					  return;
+					}
+				});
+			};
+			deleteFile(outputFilePath);
+		  } catch (error) {
+			console.error('Error sending message:', error);
+			await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+		  }
+		}
+
+		// Vimeo Video to MP3
+		if (messageBody.startsWith('.vmdl-mp3 ')) {
+		  const url = messageBody.split(' ')[1];
+		  await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+
+		  try {
+			const outputFilePath = path.join(__dirname, "../upload", "vmdl-audio.mp3");
+			await VimeoAudio(url, outputFilePath);
+
+			await sock.sendMessage(chatId, { audio: { url: outputFilePath }, mimetype: 'audio/mp4' }, { quoted: msg });
+			console.log(`Response: Success sending video ${outputFilePath}`);
+			await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+
+			const deleteFile = (filePath) => {
+				fs.unlink(filePath, (err) => {
+					if (err) {
+						console.error(`Error deleting file: ${err.message}`);
+					} else {
+					  return;
+					}
+				});
+			};
+			deleteFile(outputFilePath);
+		  } catch (error) {
+			console.error('Error sending message:', error);
+			await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+		  }
+		}
+		
+		// Facebook Video to MP4
+		if (messageBody.startsWith('.fbdl-mp4 ')) {
+		  const url = messageBody.split(' ')[1];
+		  await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+
+		  try {
+			const outputFilePath = path.join(__dirname, "../upload", "fbdl-video.mp4");
+			await FacebookVideo(url, outputFilePath);
+
+			await sock.sendMessage(chatId, { video: { url: outputFilePath }, caption: "This is the video you asked for!" }, { quoted: msg });
+			console.log(`Response: Success sending video ${outputFilePath}`);
+			await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+
+			const deleteFile = (filePath) => {
+				fs.unlink(filePath, (err) => {
+					if (err) {
+						console.error(`Error deleting file: ${err.message}`);
+					} else {
+					  return;
+					}
+				});
+			};
+			deleteFile(outputFilePath);
+		  } catch (error) {
+			console.error('Error sending message:', error);
+			await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+		  }
+		}
+
+		// Facebook Video to MP3
+		if (messageBody.startsWith('.fbdl-mp3 ')) {
+		  const url = messageBody.split(' ')[1];
+		  await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+
+		  try {
+			const outputFilePath = path.join(__dirname, "../upload", "fbdl-audio.mp3");
+			await FacebookAudio(url, outputFilePath);
+
+			await sock.sendMessage(chatId, { audio: { url: outputFilePath }, mimetype: 'audio/mp4' }, { quoted: msg });
+			console.log(`Response: Success sending video ${outputFilePath}`);
+			await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+
+			const deleteFile = (filePath) => {
+				fs.unlink(filePath, (err) => {
+					if (err) {
+						console.error(`Error deleting file: ${err.message}`);
+					} else {
+					  return;
+					}
+				});
+			};
+			deleteFile(outputFilePath);
+		  } catch (error) {
+			console.error('Error sending message:', error);
+			await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+		  }
+		}
+		
+		// Youtube Video to MP4
+		if (messageBody.startsWith('.ytdl-mp4 ')) {
+		  const url = messageBody.split(' ')[1];
+		  await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+
+		  try {
+			const outputFilePath = path.join(__dirname, "../upload/ytdl-video.mp4");
+			await YoutubeVideo(url, outputFilePath);
+			
+			await sock.sendMessage(chatId, { video: { url: outputFilePath }, caption: "This is the video you asked for!" }, { quoted: msg });
+			console.log(`Response: Success sending video ${outputFilePath}`);
+			await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+			
+			const deleteFile = (filePath) => {
+			  fs.unlink(filePath, (err) => {
+				if (err) {
+				  console.error(`Error deleting file: ${err.message}`);
+				} else {
+				  return;
+				}
+			  });
+			};
+			
+			deleteFile(outputFilePath);
+		  } catch (error) {
+			console.error('Error sending message:', error);
+			await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+		  }
+		}
+		
+		// Youtube Video to MP3
+		if (messageBody.startsWith('.ytdl-mp3 ')) {
+		  const url = messageBody.split(' ')[1];
+		  await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+
+		  try {
+			const outputFilePath = path.join(__dirname, "../upload", "ytdl-audio.mp3");
+			await YoutubeAudio(url, outputFilePath);
+			
+			await sock.sendMessage(chatId, { audio: { url: outputFilePath }, mimetype: 'audio/mp4' }, { quoted: msg });
+			console.log(`Response: Success sending audio ${outputFilePath}`);
+			await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+			
+			const deleteFile = (filePath) => {
+			  fs.unlink(filePath, (err) => {
+				if (err) {
+				  console.error(`Error deleting file: ${err.message}`);
+				} else {
+				  return;
+				}
+			  });
+			};
+			
+			deleteFile(outputFilePath);
+		  } catch (error) {
+			console.error('Error sending message:', error);
+			await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+		  }
 		}
 		
 		// AES Encryption & Decryption
@@ -248,7 +599,7 @@ async function Message(sock, messages) {
 			await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
 			
 			try {
-				const qrCodeFilePath = path.join(__dirname, '../qrcode.png');
+				const qrCodeFilePath = path.join(__dirname, '../upload/qrcode.png');
 				await QRCode.toFile(qrCodeFilePath, text);
 				const caption = `Here is your QR code for: "${text}"`;
 				
@@ -513,7 +864,7 @@ async function Message(sock, messages) {
 			await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
 
 			try {
-				const audioFilePath = path.join(__dirname, '../output.mp3');
+				const audioFilePath = path.join(__dirname, '../upload/output.mp3');
 				const gtts = new gTTS(textToConvert, 'id');
 
 				gtts.save(audioFilePath, async function (err) {
@@ -558,8 +909,8 @@ async function Message(sock, messages) {
 					{ reuploadRequest: sock.updateMediaMessage }
 				);
 
-				const inputFilePath = path.join(__dirname, 'input-image.jpg');
-				const outputStickerPath = path.join(__dirname, 'output-sticker.webp');
+				const inputFilePath = path.join(__dirname, '../upload/input-image.jpg');
+				const outputStickerPath = path.join(__dirname, '../upload/output-sticker.webp');
 				const ffmpegPath = path.join(__dirname, '../plugin/ffmpeg.exe');
 
 				fs.writeFileSync(inputFilePath, buffer);
@@ -613,7 +964,7 @@ async function Message(sock, messages) {
 					{ message: quotedMessage },
 					'buffer'
 				);
-				const inputFilePath = path.join(__dirname, '../input-image.jpg');
+				const inputFilePath = path.join(__dirname, '../upload/input-image.jpg');
 				fs.writeFileSync(inputFilePath, buffer);
 				try {
 					const geminiPromptImg = `${config.GEMINI_PROMPT}: ${getPrompt}`;
