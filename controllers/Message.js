@@ -57,72 +57,6 @@ async function Message(sock, messages) {
 	}
 	======BASIC======== */
 	
-	if (messageBody === '.menu') {
-		const filePath = path.join(__dirname, '../upload/ss.jpg');
-		await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
-		try {
-			const url = filePath;
-			const caption = 
-				'*Whastapp Bot* \n\n' + 
-				'Gemini\n' + 
-				'★ *.gemini-ai* _<text>_\n' + 
-				'★ *.gemini-img* _<text>_ !quote\n\n' + 
-				'Misc\n' + 
-				'★ *.sticker* !quote\n' + 
-				'★ *.to-voice* _<text>_\n' + 
-				'★ *.wiki-ai* _<text>_\n' + 
-				'★ *.wiki-search* _<text>_\n' + 
-				'★ *.wiki-img* _<text>_\n' + 
-				'★ *.weather* _<city>_\n' + 
-				'★ *.translate* _<text>_\n' + 
-				'★ *.surah* _<value>_\n' + 
-				'★ *.surah-detail* _<value:value>_\n' + 
-				'★ *.country* _<country>_\n' + 
-				'★ *.seo* _<domain>_\n' + 
-				'★ *.words* _<text>_\n' + 
-				'★ *.mtk* _<1+1-1*1:1>_\n' + 
-				'★ *.qrcode* _<text>_\n\n' + 
-				'File Search\n' + 
-				'★ *.pdf* _<text>_\n' + 
-				'★ *.doc* _<text>_\n' + 
-				'★ *.docx* _<text>_\n' + 
-				'★ *.xls* _<text>_\n' + 
-				'★ *.xlsx* _<text>_\n' + 
-				'★ *.ppt* _<text>_\n' + 
-				'★ *.pptx* _<text>_\n' + 
-				'★ *.txt* _<text>_\n' + 
-				'★ *.html* _<text>_\n' + 
-				'★ *.htm* _<text>_\n' + 
-				'★ *.csv* _<text>_\n' + 
-				'★ *.rtf* _<text>_\n' + 
-				'★ *.odt* _<text>_\n' + 
-				'★ *.ods* _<text>_\n' + 
-				'★ *.odp* _<text>_\n' + 
-				'★ *.epub* _<text>_\n' + 
-				'★ *.zip* _<text>_\n' + 
-				'★ *.gz* _<text>_\n\n' + 
-				'Group\n' + 
-				'★ *.add* _<628xx>_\n' + 
-				'★ *.kick* _<@mention>_\n' + 
-				'★ *.promote* _<@mention>_\n' + 
-				'★ *.demote* _<@mention>_\n' + 
-				'★ *.chat-close*\n' + 
-				'★ *.chat-open*\n' + 
-				'★ *.antilink-true*\n' + 
-				'★ *.antilink-false*\n' + 
-				'★ *.badwords-true*\n' + 
-				'★ *.badwords-false*\n\n' + 
-				'Source : https://github.com/fitri-hy/whatsapp-bot';
-			await sock.sendMessage(chatId, {image: {url: url}, caption: caption}, { quoted: msg });
-			console.log(`Response: Success`);
-
-			await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
-		} catch (error) {
-			console.error('Error sending message:', error);
-			await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
-		}
-	}
-	
 	// Deteksi dan hapus pesan jika ada kata kasar
 	if (config.ANTI_BADWORDS) {
 		if (containsBadWords(messageBody)) {
@@ -151,6 +85,72 @@ async function Message(sock, messages) {
 	
     // Self Message
     if (msg.key.fromMe === config.SELF_BOT_MESSAGE) {
+		
+		if (messageBody === '.menu') {
+			const filePath = path.join(__dirname, '../upload/ss.jpg');
+			await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+			try {
+				const url = filePath;
+				const caption = 
+					'*Whastapp Bot* \n\n' + 
+					'Gemini\n' + 
+					'★ *.gemini-ai* _<text>_\n' + 
+					'★ *.gemini-img* _<text>_ !quote\n\n' + 
+					'Misc\n' + 
+					'★ *.sticker* !quote\n' + 
+					'★ *.to-voice* _<text>_\n' + 
+					'★ *.wiki-ai* _<text>_\n' + 
+					'★ *.wiki-search* _<text>_\n' + 
+					'★ *.wiki-img* _<text>_\n' + 
+					'★ *.weather* _<city>_\n' + 
+					'★ *.translate* _<text>_\n' + 
+					'★ *.surah* _<value>_\n' + 
+					'★ *.surah-detail* _<value:value>_\n' + 
+					'★ *.country* _<country>_\n' + 
+					'★ *.seo* _<domain>_\n' + 
+					'★ *.words* _<text>_\n' + 
+					'★ *.mtk* _<1+1-1*1:1>_\n' + 
+					'★ *.qrcode* _<text>_\n\n' + 
+					'File Search\n' + 
+					'★ *.pdf* _<text>_\n' + 
+					'★ *.doc* _<text>_\n' + 
+					'★ *.docx* _<text>_\n' + 
+					'★ *.xls* _<text>_\n' + 
+					'★ *.xlsx* _<text>_\n' + 
+					'★ *.ppt* _<text>_\n' + 
+					'★ *.pptx* _<text>_\n' + 
+					'★ *.txt* _<text>_\n' + 
+					'★ *.html* _<text>_\n' + 
+					'★ *.htm* _<text>_\n' + 
+					'★ *.csv* _<text>_\n' + 
+					'★ *.rtf* _<text>_\n' + 
+					'★ *.odt* _<text>_\n' + 
+					'★ *.ods* _<text>_\n' + 
+					'★ *.odp* _<text>_\n' + 
+					'★ *.epub* _<text>_\n' + 
+					'★ *.zip* _<text>_\n' + 
+					'★ *.gz* _<text>_\n\n' + 
+					'Group\n' + 
+					'★ *.add* _<628xx>_\n' + 
+					'★ *.kick* _<@mention>_\n' + 
+					'★ *.promote* _<@mention>_\n' + 
+					'★ *.demote* _<@mention>_\n' + 
+					'★ *.chat-close*\n' + 
+					'★ *.chat-open*\n' + 
+					'★ *.antilink-true*\n' + 
+					'★ *.antilink-false*\n' + 
+					'★ *.badwords-true*\n' + 
+					'★ *.badwords-false*\n\n' + 
+					'Source : https://github.com/fitri-hy/whatsapp-bot';
+				await sock.sendMessage(chatId, {image: {url: url}, caption: caption}, { quoted: msg });
+				console.log(`Response: Success`);
+
+				await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+			} catch (error) {
+				console.error('Error sending message:', error);
+				await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+			}
+		}
 		
 		// File Search
 		if (messageBody.startsWith('.')) {
@@ -524,7 +524,8 @@ async function Message(sock, messages) {
 			const question = messageBody.replace('.gemini-ai ', '').trim();
             await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
             try {
-                const responseMessage = await GeminiMessage(question);
+                const geminiPrompt = `${config.GEMINI_PROMPT}: ${question}`;
+                const responseMessage = await GeminiMessage(geminiPrompt);
                 await sock.sendMessage(chatId, { text: responseMessage }, { quoted: msg });
                 console.log(`Response: ${responseMessage}`);
                 await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
@@ -537,7 +538,7 @@ async function Message(sock, messages) {
 		// Gemini Image Analysis
 		if (messageBody.startsWith('.gemini-img ')) {
 				const quotedMessage = msg.message.extendedTextMessage?.contextInfo?.quotedMessage;
-				const getPrompt = messageBody.replace('.test ', '').trim();
+				const getPrompt = messageBody.replace('.gemini-img ', '').trim();
 
 				if (quotedMessage?.imageMessage) {
 					await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
@@ -551,7 +552,8 @@ async function Message(sock, messages) {
 					fs.writeFileSync(inputFilePath, buffer);
 
 					try {
-						const analysisResult = await GeminiImage(inputFilePath, getPrompt);
+						const geminiPromptImg = `${config.GEMINI_PROMPT}: ${getPrompt}`;
+						const analysisResult = await GeminiImage(inputFilePath, geminiPromptImg);
 						await sock.sendMessage(chatId, { text: analysisResult }, { quoted: msg });
 						console.log(`Response: ${analysisResult}`);
 					} catch (error) {
@@ -778,6 +780,44 @@ async function Message(sock, messages) {
                 fs.writeFileSync(configPath, JSON.stringify(config, null, 2), 'utf-8');
         
                 const responseMessage = "Badwords nonactived";
+                await sock.sendMessage(chatId, { text: responseMessage }, { quoted: msg });
+                console.log(`Response: ${responseMessage}`);
+        
+                await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+            } catch (error) {
+                console.error('Error sending message:', error);
+                await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+            }
+        }
+		
+		// Self Bot Use Non-Actived
+        if (messageBody === '.self-false') {
+            await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+            try {
+                config.SELF_BOT_MESSAGE = false;
+        
+                fs.writeFileSync(configPath, JSON.stringify(config, null, 2), 'utf-8');
+        
+                const responseMessage = "Self bot use nonactived";
+                await sock.sendMessage(chatId, { text: responseMessage }, { quoted: msg });
+                console.log(`Response: ${responseMessage}`);
+        
+                await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+            } catch (error) {
+                console.error('Error sending message:', error);
+                await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+            }
+        }
+		
+		// Self Bot Use Actived
+        if (messageBody === '.self-true') {
+            await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+            try {
+                config.SELF_BOT_MESSAGE = true;
+        
+                fs.writeFileSync(configPath, JSON.stringify(config, null, 2), 'utf-8');
+        
+                const responseMessage = "Self bot use Actived";
                 await sock.sendMessage(chatId, { text: responseMessage }, { quoted: msg });
                 console.log(`Response: ${responseMessage}`);
         
