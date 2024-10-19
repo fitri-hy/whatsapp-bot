@@ -1,11 +1,12 @@
 {
   "SELF_BOT_UTILITY": true,
   "SELF_BOT_MESSAGE": true,
-  "ANIME_API": "https://web-partners.my.id",
-  "GEMINI_API": "AIzaxxxxxxxxxxxxxxx",
-  "GEMINI_PROMPT": "Balas pesan ini dengan singkat",
   "ANTI_LINK": false,
   "ANTI_BADWORDS": false,
+  "GEMINI_API": "AIzaxxxxxxxxxxxxxxx",
+  "GEMINI_PROMPT": "Balas pesan ini dengan singkat",
+  "ANIME_API": "https://web-partners.my.id",
+  "ANIME_SOURCE": "anime-api-nodejs",
   "BAD_WORDS": [
     "ancuk",
     "ancok",
