@@ -99,6 +99,7 @@ async function Message(sock, messages) {
 				const url = filePath;
 				const caption = 
 					'*Whastapp Bot* \n\n' + 
+					'Kalo mau nyolong scnya jangan lupa kasih bintang/fork reponya bro! \n' + 
 					'Source : https://github.com/fitri-hy/whatsapp-bot';
 				await sock.sendMessage(chatId, {image: {url: url}, caption: caption}, { quoted: msg });
 				console.log(`Response: Success`);
