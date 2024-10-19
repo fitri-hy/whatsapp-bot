@@ -1,6 +1,6 @@
 {
   "SELF_BOT_UTILITY": true,
-  "SELF_BOT_MESSAGE": true,
+  "SELF_BOT_MESSAGE": false,
   "ANTI_LINK": false,
   "ANTI_BADWORDS": false,
   "GEMINI_API": "AIzaxxxxxxxxxxxxxxx",
