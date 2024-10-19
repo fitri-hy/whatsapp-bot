@@ -54,6 +54,7 @@
 |.detik-search			|Get articles from search, example `.detik-search indonesia|
 |.detik-viral			|Get the viral articles, example `.detik-viral`|
 |.detik-news   			|Get the latest articles, example `.detik-news`|
+|.anime   				|Get anime streaming, example `.anime isekai`|
 |.{file-type}			|Generate QRcode Image, example: `.pdf javascript`|
 |**News Feature**   	|Comming Soon ...|
 

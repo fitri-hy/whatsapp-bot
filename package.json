@@ -21,7 +21,6 @@
     "gtts": "^0.2.1",
     "path": "^0.12.7",
     "qrcode": "^1.5.4",
-    "qrcode-terminal": "^0.12.0",
     "youtube-dl-exec": "^3.0.10"
   }
 }

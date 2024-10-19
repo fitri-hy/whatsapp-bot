@@ -15,6 +15,7 @@ const { FileSearch } = require('./FileSearch');
 const { AesEncryption, AesDecryption, CamelliaEncryption, CamelliaDecryption, ShaEncryption, Md5Encryption, RipemdEncryption, BcryptEncryption } = require('./Tools.js');
 const { YoutubeVideo, YoutubeAudio, FacebookVideo, FacebookAudio, TwitterVideo, TwitterAudio, InstagramVideo, InstagramAudio, TikTokVideo, TikTokAudio, VimeoVideo, VimeoAudio  } = require('./Downloader');
 const { DetikNews, DetikViral, DetikLatest } = require('./Detik');
+const { AnimeVideo, downloadImage } = require('./Anime');
 const configPath = path.join(__dirname, '../config.json');
 const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
 
@@ -89,6 +90,7 @@ async function Message(sock, messages) {
     // Self Message
     if (msg.key.fromMe === config.SELF_BOT_MESSAGE) {
 		
+		// Menu
 		if (messageBody === '.menu') {
 			const filePath = path.join(__dirname, '../upload/ss.jpg');
 			await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
@@ -104,6 +106,37 @@ async function Message(sock, messages) {
 			} catch (error) {
 				console.error('Error sending message:', error);
 				await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+			}
+		}
+		
+		// Anime Search
+		if (messageBody.startsWith('.anime ')) {
+			const encryptedText = messageBody.replace('.anime ', '').trim();
+			await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+			try {
+				const result = await AnimeVideo(encryptedText);
+				const tempImagePath = path.join(__dirname, '../upload/temp_image.jpg');
+				const imageUrl = result.animeImgUrl || '../upload/default.jpg';
+
+				await downloadImage(imageUrl, tempImagePath);
+
+				let responseMessage = `*${result.title}*\n\n`;
+				result.episodes.forEach((episode) => {
+					responseMessage += `Episode ${episode.epNo}\n${episode.videoUrl}\n\n`;
+				});
+
+				await sock.sendMessage(chatId, { image: { url: tempImagePath }, caption: responseMessage }, { quoted: msg });
+				console.log(`Success! Anime Sending..`);
+
+				fs.unlinkSync(tempImagePath);
+				await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+			} catch (error) {
+				console.error('Error sending message:', error);
+				await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+
+				if (fs.existsSync(tempImagePath)) {
+					fs.unlinkSync(tempImagePath);
+				}
 			}
 		}
 		
