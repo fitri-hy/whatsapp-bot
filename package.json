@@ -11,6 +11,7 @@
   "description": "",
   "dependencies": {
     "@google/generative-ai": "^0.21.0",
+    "@octokit/rest": "^18.12.0",
     "@whiskeysockets/baileys": "^6.7.8",
     "axios": "^1.7.7",
     "bcryptjs": "^2.4.3",

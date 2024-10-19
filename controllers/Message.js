@@ -3,6 +3,7 @@ const { exec } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const gTTS = require('gtts');
+const { Octokit } = require('@octokit/rest');
 const QRCode = require('qrcode');
 const { GeminiMessage, GeminiImage } = require('./Gemini');
 const { WikipediaSearch, WikipediaAI, WikipediaImage } = require('./Wikipedia');
@@ -101,6 +102,38 @@ async function Message(sock, messages) {
 					'Source : https://github.com/fitri-hy/whatsapp-bot';
 				await sock.sendMessage(chatId, {image: {url: url}, caption: caption}, { quoted: msg });
 				console.log(`Response: Success`);
+
+				await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+			} catch (error) {
+				console.error('Error sending message:', error);
+				await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+			}
+		}
+		
+		// Get Github Username Info
+		if (messageBody.startsWith('.github ')) {
+			const username = messageBody.replace('.github ', '').trim();
+			await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+			
+			try {
+				const octokit = new Octokit();
+				const { data } = await octokit.rest.users.getByUsername({ username });
+				
+				const responseProfile = `${data.avatar_url}`;
+				const responseMessage = `*User Github Info for ${data.login}:*\n\n` +
+					`- Name: ${data.name || 'No name available'}\n` +
+					`- Bio: ${data.bio || 'No bio available'}\n` +
+					`- Location: ${data.location || 'No location available'}\n` +
+					`- Company: ${data.company || 'No company available'}\n` +
+					`- Followers: ${data.followers}\n` +
+					`- Following: ${data.following}\n` +
+					`- Repositories: ${data.public_repos}\n` +
+					`- Public Gists: ${data.public_gists}\n` +
+					`- Blog: ${data.blog ? `${data.blog}` : 'No blog available'}\n` +
+					`- Created At: ${new Date(data.created_at).toLocaleDateString()}`;
+					
+				await sock.sendMessage(chatId, { image: { url: responseProfile }, caption: responseMessage }, { quoted: msg });
+				console.log(`Response: Success get Username github data.`);
 
 				await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
 			} catch (error) {
