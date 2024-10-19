@@ -1329,13 +1329,8 @@ async function Message(sock, messages) {
             await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
             try {
                 config.SELF_BOT_MESSAGE = false;
-        
                 fs.writeFileSync(configPath, JSON.stringify(config, null, 2), 'utf-8');
-        
-                const responseMessage = "Self bot use nonactived";
-                await sock.sendMessage(chatId, { text: responseMessage }, { quoted: msg });
-                console.log(`Response: ${responseMessage}`);
-        
+                console.log(`Response: Self Bot Use Non-Actived`);
                 await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
             } catch (error) {
                 console.error('Error sending message:', error);
@@ -1348,13 +1343,8 @@ async function Message(sock, messages) {
             await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
             try {
                 config.SELF_BOT_MESSAGE = true;
-        
                 fs.writeFileSync(configPath, JSON.stringify(config, null, 2), 'utf-8');
-        
-                const responseMessage = "Self bot use Actived";
-                await sock.sendMessage(chatId, { text: responseMessage }, { quoted: msg });
-                console.log(`Response: ${responseMessage}`);
-        
+                console.log(`Response: Self Bot Use Actived`);
                 await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
             } catch (error) {
                 console.error('Error sending message:', error);
