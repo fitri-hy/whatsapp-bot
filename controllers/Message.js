@@ -4,6 +4,7 @@ const puppeteer = require('puppeteer');
 const fs = require('fs');
 const path = require('path');
 const gTTS = require('gtts');
+const Tesseract = require('tesseract.js');
 const { Octokit } = require('@octokit/rest');
 const QRCode = require('qrcode');
 const { GeminiMessage, GeminiImage } = require('./Gemini');
@@ -29,7 +30,7 @@ async function Message(sock, messages) {
 		const regex = new RegExp(`\\b(${config.BAD_WORDS.join('|')})\\b`, 'i');
 		return regex.test(message);
 	}
-	
+
 	/* ======BASIC========
 	// Send Message
 	if (messageBody === '.send-teks') {
@@ -110,6 +111,32 @@ async function Message(sock, messages) {
 			}
 		}
 		
+		// OCR (Image to Teks)
+		if (messageBody === '.ocr') {
+			const quotedMessage = msg.message.extendedTextMessage?.contextInfo?.quotedMessage;
+
+			if (quotedMessage?.imageMessage) {
+				await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+				
+				const buffer = await downloadMediaMessage({ message: quotedMessage }, 'buffer');
+				const inputFilePath = path.join(__dirname, '../upload/img-to-image.jpg');
+				fs.writeFileSync(inputFilePath, buffer);
+
+				try {
+					const { data: { text } } = await Tesseract.recognize(inputFilePath, 'eng');
+					await sock.sendMessage(chatId, { text: text || "Tidak ada teks yang dikenali." }, { quoted: msg });
+					console.log(`Teks yang dikenali: ${text}`);
+				} catch (error) {
+					console.error('Error during OCR:', error);
+					await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+				} finally {
+					fs.unlinkSync(inputFilePath);
+				}
+			} else {
+				await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+			}
+		}
+
 		// Scrrenshoot Web
 		if (messageBody.startsWith('.ssweb ')) {
 			const domain = messageBody.replace('.ssweb ', '').trim();

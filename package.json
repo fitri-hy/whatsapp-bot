@@ -24,6 +24,7 @@
     "puppeteer": "^23.6.0",
     "qrcode": "^1.5.4",
     "qrcode-terminal": "^0.12.0",
+    "tesseract.js": "^5.1.1",
     "youtube-dl-exec": "^3.0.10"
   }
 }
