@@ -1,5 +1,6 @@
 const { downloadMediaMessage } = require('@whiskeysockets/baileys');
 const { exec } = require('child_process');
+const puppeteer = require('puppeteer');
 const fs = require('fs');
 const path = require('path');
 const gTTS = require('gtts');
@@ -109,6 +110,66 @@ async function Message(sock, messages) {
 			}
 		}
 		
+		// Scrrenshoot Web
+		if (messageBody.startsWith('.ssweb ')) {
+			const domain = messageBody.replace('.ssweb ', '').trim();
+			await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+
+			try {
+				const browser = await puppeteer.launch();
+				const page = await browser.newPage();
+				await page.goto(`http://${domain}`, { waitUntil: 'networkidle2' });
+
+				const screenshotPath = path.join(__dirname, '../upload/screenshot-web.png');
+				await page.screenshot({ path: screenshotPath, fullPage: false });
+				await browser.close();
+
+				const caption = `Screenshot of ${domain}`;
+
+				await new Promise(resolve => setTimeout(resolve, 2000));
+
+				await sock.sendMessage(chatId, { image: { url: screenshotPath }, caption: caption }, { quoted: msg });
+				console.log(`Response: ${caption}\nScreenshot path: ${screenshotPath}`);
+
+				fs.unlinkSync(screenshotPath);
+				await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+			} catch (error) {
+				console.error('Error taking screenshot or sending message:', error);
+				await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+			}
+		}
+
+		// Scrrenshoot Mobile
+		if (messageBody.startsWith('.ssmobile ')) {
+			const domain = messageBody.replace('.ssmobile ', '').trim();
+			await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+
+			try {
+				const browser = await puppeteer.launch();
+				const page = await browser.newPage();
+
+				await page.setViewport({ width: 375, height: 667 });
+				await page.goto(`http://${domain}`, { waitUntil: 'networkidle2' });
+
+				const screenshotPath = path.join(__dirname, '../upload/screenshot_mobile.png');
+				await page.screenshot({ path: screenshotPath, fullPage: false });
+				await browser.close();
+
+				const caption = `Mobile screenshot of ${domain}`;
+
+				await new Promise(resolve => setTimeout(resolve, 2000));
+
+				await sock.sendMessage(chatId, { image: { url: screenshotPath }, caption: caption }, { quoted: msg });
+				console.log(`Response: ${caption}\nScreenshot path: ${screenshotPath}`);
+
+				fs.unlinkSync(screenshotPath);
+				await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+			} catch (error) {
+				console.error('Error taking mobile screenshot or sending message:', error);
+				await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+			}
+		}
+
 		// Get Github Username Info
 		if (messageBody.startsWith('.github ')) {
 			const username = messageBody.replace('.github ', '').trim();

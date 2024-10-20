@@ -14,6 +14,8 @@
 ├• .mtk
 ├• .qrcode
 ├• .anime
+├• .ssweb
+├• .ssmobile
 └• .github
 
 🔒 Encrypts

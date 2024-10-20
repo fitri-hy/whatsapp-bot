@@ -51,6 +51,8 @@
 |✅|✅|❌|.tkdl-mp3   			|Convert Tiktok video URL to MP3, example `.tkdl-mp3 url`|
 |✅|✅|❌|.vmdl-mp4   			|Convert Vimeo video URL to MP4, example `.vmdl-mp4 url`|
 |✅|✅|❌|.vmdl-mp3   			|Convert Vimeo video URL to MP3, example `.vmdl-mp3 url`|
+|✅|✅|❌|.ssweb   				|Get a screenshot web of the domain, example `.ssweb domain`|
+|✅|✅|❌|.ssmobile   			|Get a screenshot mobile of the domain, example `.ssmobile domain`|
 |✅|✅|✅|.detik-search			|Get articles from search, example `.detik-search indonesia|
 |✅|✅|✅|.detik-viral			|Get the viral articles, example `.detik-viral`|
 |✅|✅|✅|.detik-news   			|Get the latest articles, example `.detik-news`|
