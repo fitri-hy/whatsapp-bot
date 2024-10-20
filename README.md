@@ -57,7 +57,7 @@
 |✅|✅|✅|.anime   				|Get anime streaming, example `.anime isekai`|
 |✅|✅|✅|.github   				|Get github username account information, example `.github fitri-hy`|
 |✅|✅|✅|.{file-type}			|Generate QRcode Image, example: `.pdf javascript`|
-|-|-|-||**News Feature**   	|Comming Soon ...|
+|-|-|-|**News Feature**			|Comming Soon ...|
 
 **{File-Type} Support**
 ```

@@ -62,7 +62,7 @@ async function Message(sock, messages) {
 	}
 	======BASIC======== */
 	
-	// Deteksi dan hapus pesan jika ada kata kasar
+	// Anti badwords
 	if (config.ANTI_BADWORDS) {
 		if (containsBadWords(messageBody)) {
 			try {
@@ -74,7 +74,7 @@ async function Message(sock, messages) {
 		}
 	}
 	
-    // Hapus pesan jika terdapat url/domain
+    // Anti url/domain
     if (config.ANTI_LINK) {
             const urlRegex = /https?:\/\/[^\s]+|(?:www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}/g; 
             const containsUrl = urlRegex.test(messageBody);
@@ -94,13 +94,11 @@ async function Message(sock, messages) {
 		// Menu
 		if (messageBody === '.menu') {
 			const filePath = path.join(__dirname, '../upload/ss.jpg');
+			const captionPath = path.join(__dirname, './Utils/menu.txt');
 			await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
 			try {
 				const url = filePath;
-				const caption = 
-					'*Whastapp Bot* \n\n' + 
-					'Kalo mau nyolong scnya jangan lupa kasih bintang/fork reponya bro! \n' + 
-					'Source : https://github.com/fitri-hy/whatsapp-bot';
+				const caption = await fs.promises.readFile(captionPath, 'utf-8');
 				await sock.sendMessage(chatId, {image: {url: url}, caption: caption}, { quoted: msg });
 				console.log(`Response: Success`);
 

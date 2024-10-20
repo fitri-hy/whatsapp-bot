@@ -1,0 +1,89 @@
+
+🤖 AI
+├• .gemini-ai
+└• .gemini-img
+
+📦 Misc
+├• .sticker
+├• .to-voice
+├• .weather
+├• .translate
+├• .country
+├• .seo
+├• .words
+├• .mtk
+├• .qrcode
+├• .anime
+└• .github
+
+🔒 Encrypts
+├• .aes-enc
+├• .aes-dec
+├• .camellia-enc
+├• .camellia-dec
+├• .sha
+├• .md5
+├• .ripemd
+└• .bcrypt
+
+⬇️ Downloader
+├• .ytdl-mp4
+├• .ytdl-mp3
+├• .fbdl-mp4
+├• .fbdl-mp3
+├• .twdl-mp4
+├• .twdl-mp3
+├• .igdl-mp4
+├• .igdl-mp3
+├• .tkdl-mp4
+├• .tkdl-mp3
+├• .vmdl-mp4
+└• .vmdl-mp3
+
+🕌 Quran
+├• .surah
+└• .surah-detail
+
+🌐 Wikipedia
+├• .wiki-ai
+├• .wiki-search
+└• .wiki-img
+
+📰 Detik
+├• .detik-search
+├• .detik-viral
+└• .detik-news
+
+📁 File
+├• .pdf
+├• .doc
+├• .docx
+├• .xls
+├• .xlsx
+├• .ppt
+├• .pptx
+├• .txt
+├• .html
+├• .htm
+├• .csv
+├• .rtf
+├• .odt
+├• .ods
+├• .odp
+├• .epub
+├• .zip
+└• .gz
+
+👥 Group / Owner
+├• .add
+├• .kick
+├• .promote
+├• .demote
+├• .chat-close
+├• .chat-open
+├• .antilink-true
+├• .antilink-false
+├• .badwords-true
+├• .badwords-false
+├• .self-false
+└• .self-true
