@@ -17,7 +17,7 @@
 |-------|-----|--------|-----------------------|-------------------|
 |✅|✅|✅|.gemini-ai				|To use Gemini AI, example: `.gemini hello`|
 |✅|✅|✅|.gemini-img			|Analyze the quoted image: example quote image `.gemini-img What is this picture?`|
-|✅|✅|✅|.sticker       		|Convert images into stickers, example: quote image `.sticker`|
+|✅|✅|❌|.sticker       		|Convert images into stickers, example: quote image `.sticker`|
 |✅|✅|✅|.to-voice				|Convert text to voice, example: `.to-voice hello words`|
 |✅|✅|✅|.wiki-ai				|Get wiki content based on a query, example: `.wiki-ai kucing`|
 |✅|✅|✅|.wiki-search			|Get a list of wiki contents based on a query, example: `.wiki-search kucing`|
