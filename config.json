@@ -3,8 +3,9 @@
   "SELF_BOT_MESSAGE": true,
   "ANTI_LINK": false,
   "ANTI_BADWORDS": false,
-  "GEMINI_API": "AIzaxxxxxxxxxxxxxxx",
-  "GEMINI_PROMPT": "Balas pesan ini dengan singkat",
+  "GEMINI_API": "AIzxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "GEMINI_PROMPT": "Anda harus berpura-pura menjadi Whastapp-Bot dan jawab pertanyaan menggunakan bahasa indonesia dengan singkat: ",
+  "GEMINI_PROMPT_ROASTING": "Anda harus berpura-pura menjadi Whastapp-Bot yang sangat hobi me-roasting dan jawab menggunakan bahasa indonesia dan singkat: ",
   "ANIME_API": "https://web-partners.my.id",
   "ANIME_SOURCE": "anime-api-nodejs",
   "BAD_WORDS": [

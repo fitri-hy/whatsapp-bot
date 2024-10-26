@@ -21,7 +21,20 @@ async function GeminiImage(imagePath, getPrompt) {
     try {
         const imagePart = fileToGenerativePart(imagePath, "image/jpeg");
 
-        const result = await model.generateContent([getPrompt, imagePart]);
+        const result = await model.generateContent([config.GEMINI_PROMPT + getPrompt, imagePart]);
+        const response = await result.response;
+        return response.text();
+    } catch (error) {
+        console.error('Error analyzing image:', error);
+        throw error;
+    }
+}
+
+async function GeminiImageRoasting(imagePath, getPrompt) {
+    try {
+        const imagePart = fileToGenerativePart(imagePath, "image/jpeg");
+
+        const result = await model.generateContent([config.GEMINI_PROMPT_ROASTING + getPrompt, imagePart]);
         const response = await result.response;
         return response.text();
     } catch (error) {
@@ -32,7 +45,7 @@ async function GeminiImage(imagePath, getPrompt) {
 
 async function GeminiMessage(question) {
     try {
-        const result = await model.generateContent(question);
+        const result = await model.generateContent(config.GEMINI_PROMPT +question);
         return result.response.text();
     } catch (error) {
         console.error('Error generating message:', error);
@@ -40,4 +53,14 @@ async function GeminiMessage(question) {
     }
 }
 
-module.exports = { GeminiMessage, GeminiImage  };
+async function GeminiRoastingMessage(question) {
+    try {
+        const result = await model.generateContent(config.GEMINI_PROMPT_ROASTING +question);
+        return result.response.text();
+    } catch (error) {
+        console.error('Error generating message:', error);
+        throw error;
+    }
+}
+
+module.exports = { GeminiMessage, GeminiImage, GeminiRoastingMessage, GeminiImageRoasting };

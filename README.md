@@ -16,19 +16,22 @@
 |Windows|Linux| Termux | Command      			|  Deskription      |
 |-------|-----|--------|-----------------------|-------------------|
 |✅|✅|✅|.gemini-ai				|To use Gemini AI, example: `.gemini hello`|
-|✅|✅|✅|.gemini-img			|Analyze the quoted image: example quote image `.gemini-img What is this picture?`|
+|✅|✅|❌|.gemini-img			|Analyze the quoted image: example quote image `.gemini-img What is this picture?`|
+|✅|✅|✅|.gemini-roasting		|To use Gemini Roasting, example: `.gemini how are you`|
+|✅|✅|❌|.gemini-roasting-img	|To use Gemini Roasting, example: `.gemini What is this picture?`|
 |✅|✅|❌|.sticker       		|Convert images into stickers, example: quote image `.sticker`|
 |✅|✅|✅|.to-voice				|Convert text to voice, example: `.to-voice hello words`|
 |✅|✅|✅|.wiki-ai				|Get wiki content based on a query, example: `.wiki-ai kucing`|
 |✅|✅|✅|.wiki-search			|Get a list of wiki contents based on a query, example: `.wiki-search kucing`|
 |✅|✅|✅|.wiki-img				|Get Images from wiki based on query, example: `.wiki-image kucing`|
 |✅|✅|✅|.weather				|Get weather data based on city name, example: `.weather jakarta`|
-|✅|✅|✅|.translate				|Translate into various languages, example: `.translate-en apa kabar`|
-|✅|✅|✅|.surah					|Get the entire surah, example: `.surah 1`|
+|✅|✅|✅|.translate			|Translate into various languages, example: `.translate-en apa kabar`|
+|✅|✅|✅|.surah				|Get the entire surah, example: `.surah 1`|
 |✅|✅|✅|.surah-detail			|Get a specific verse from a surah, example: `.surah 1:4`|
 |✅|✅|✅|.country				|Get country information, example: `.country indonesia`|
 |✅|✅|✅|.seo					|Check SEO status by domain, example: `.seo youtube.com`|
-|✅|✅|✅|.words					|Counting words, example: `.words hello words`|
+|✅|✅|✅|.seo-roasting			|Roasting SEO status by domain, example: `.seo-roasting youtube.com`|
+|✅|✅|✅|.words				|Counting words, example: `.words hello words`|
 |✅|✅|✅|.mtk					|Multi math addition, example: `.mtk 1-1+1*1:1`|
 |✅|✅|✅|.qrcode				|Generate QRcode Image, example: `.qrcode hello words`|
 |✅|✅|✅|.aes-enc   			|Encrypts string to AES, example `.aes-enc hello words`|
@@ -37,8 +40,8 @@
 |✅|✅|✅|.camellia-dec   		|Dencrypts string to Camellia, example `.camellia-dec 5afe9e0176eaf2242c4aad209127796e`|
 |✅|✅|✅|.sha   				|Encrypts string to SHA, example `.sha hello words`|
 |✅|✅|✅|.md5   				|Encrypts string to MD5, example `.md5 hello words`|
-|✅|✅|✅|.ripemd   				|Encrypts string to Ripemd, example `.ripemd hello words`|
-|✅|✅|✅|.bcrypt   				|Encrypts string to Bcrypt, example `.bcrypt hello words`|
+|✅|✅|✅|.ripemd   			|Encrypts string to Ripemd, example `.ripemd hello words`|
+|✅|✅|✅|.bcrypt   			|Encrypts string to Bcrypt, example `.bcrypt hello words`|
 |✅|✅|❌|.ytdl-mp4   			|Convert YouTube video URL to MP4, example `.ytdl-mp4 url`|
 |✅|✅|❌|.ytdl-mp3   			|Convert YouTube video URL to MP3, example `.ytdl-mp3 url`|
 |✅|✅|❌|.fbdl-mp4   			|Convert Facebook video URL to MP4, example `.fbdl-mp4 url`|
@@ -56,9 +59,10 @@
 |✅|✅|❌|.ssmobile   			|Get a screenshot mobile of the domain, example `.ssmobile domain`|
 |✅|✅|✅|.detik-search			|Get articles from search, example `.detik-search indonesia|
 |✅|✅|✅|.detik-viral			|Get the viral articles, example `.detik-viral`|
-|✅|✅|✅|.detik-news   			|Get the latest articles, example `.detik-news`|
+|✅|✅|✅|.detik-news   		|Get the latest articles, example `.detik-news`|
 |✅|✅|✅|.anime   				|Get anime streaming, example `.anime isekai`|
-|✅|✅|✅|.github   				|Get github username account information, example `.github fitri-hy`|
+|✅|✅|✅|.github   			|Get github username account information, example `.github fitri-hy`|
+|✅|✅|✅|.github-roasting   	|Roasting github username account information, example `.github-roasting fitri-hy`|
 |✅|✅|✅|.{file-type}			|Generate QRcode Image, example: `.pdf javascript`|
 |-|-|-|**News Feature**			|Comming Soon ...|
 

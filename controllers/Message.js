@@ -7,7 +7,7 @@ const gTTS = require('gtts');
 const Tesseract = require('tesseract.js');
 const { Octokit } = require('@octokit/rest');
 const QRCode = require('qrcode');
-const { GeminiMessage, GeminiImage } = require('./Gemini');
+const { GeminiMessage, GeminiImage, GeminiRoastingMessage, GeminiImageRoasting } = require('./Gemini');
 const { WikipediaSearch, WikipediaAI, WikipediaImage } = require('./Wikipedia');
 const { Weather } = require('./Weather');
 const { Translate } = require('./Translates');
@@ -220,6 +220,39 @@ async function Message(sock, messages) {
 					`- Created At: ${new Date(data.created_at).toLocaleDateString()}`;
 					
 				await sock.sendMessage(chatId, { image: { url: responseProfile }, caption: responseMessage }, { quoted: msg });
+				console.log(`Response: Success get Username github data.`);
+
+				await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+			} catch (error) {
+				console.error('Error sending message:', error);
+				await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+			}
+		}
+		
+		// Github Roasting
+		if (messageBody.startsWith('.github-roasting ')) {
+			const username = messageBody.replace('.github-roasting ', '').trim();
+			await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+			
+			try {
+				const octokit = new Octokit();
+				const { data } = await octokit.rest.users.getByUsername({ username });
+				
+				const responseProfile = `${data.avatar_url}`;
+				const responseMessage = `*User Github Info for ${data.login}:*\n\n` +
+					`- Name: ${data.name || 'No name available'}\n` +
+					`- Bio: ${data.bio || 'No bio available'}\n` +
+					`- Location: ${data.location || 'No location available'}\n` +
+					`- Company: ${data.company || 'No company available'}\n` +
+					`- Followers: ${data.followers}\n` +
+					`- Following: ${data.following}\n` +
+					`- Repositories: ${data.public_repos}\n` +
+					`- Public Gists: ${data.public_gists}\n` +
+					`- Blog: ${data.blog ? `${data.blog}` : 'No blog available'}\n` +
+					`- Created At: ${new Date(data.created_at).toLocaleDateString()}`;
+					
+				const roastingMessage = await GeminiRoastingMessage(responseMessage);
+				await sock.sendMessage(chatId, { image: { url: responseProfile }, caption: roastingMessage }, { quoted: msg });
 				console.log(`Response: Success get Username github data.`);
 
 				await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
@@ -912,6 +945,37 @@ async function Message(sock, messages) {
 			}
 		}
 		
+		// SEO Roasting
+		if (messageBody.startsWith('.seo-roasting ')) {
+			const domain = messageBody.replace('.seo-roasting ', '').trim();
+			await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+
+			try {
+				const responseMessage = await CheckSEO(domain); 
+
+				// Format the response message into a readable string
+				const formattedMessage = 
+					'- SEO Success Rate: ' + responseMessage.seoSuccessRate + '\n' +
+					'- Title: ' + responseMessage.title + '\n' +
+					'- Meta Description: ' + responseMessage.metaDescription + '\n' +
+					'- Meta Keywords: ' + responseMessage.metaKeywords + '\n' +
+					'- Open Graph Title: ' + responseMessage.ogTitle + '\n' +
+					'- Open Graph Description: ' + responseMessage.ogDescription + '\n' +
+					'- Open Graph Image: ' + responseMessage.ogImage + '\n' +
+					'- Canonical URL: ' + responseMessage.canonicalUrl + '\n' +
+					'- Is Indexable: ' + (responseMessage.isIndexable ? 'Yes' : 'No');
+
+				const seoRoasting = await GeminiRoastingMessage(formattedMessage);
+				await sock.sendMessage(chatId, { text: seoRoasting.trim() }, { quoted: msg });
+				console.log(`Response: ${formattedMessage}`);
+
+				await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+			} catch (error) {
+				console.error('Error sending message:', error);
+				await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+			}
+		}
+		
 		// Search Country Detail
 		if (messageBody.startsWith('.country ')) {
 			const countryName = messageBody.replace('.country ', '').trim();
@@ -1148,8 +1212,22 @@ async function Message(sock, messages) {
 			const question = messageBody.replace('.gemini-ai ', '').trim();
             await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
             try {
-                const geminiPrompt = `${config.GEMINI_PROMPT}: ${question}`;
-                const responseMessage = await GeminiMessage(geminiPrompt);
+                const responseMessage = await GeminiMessage(question);
+                await sock.sendMessage(chatId, { text: responseMessage }, { quoted: msg });
+                console.log(`Response: ${responseMessage}`);
+                await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+            } catch (error) {
+                console.error('Error sending message:', error);
+                await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+            }
+        }
+		
+		// Gemini Roasting
+        if (messageBody.startsWith('.gemini-roasting ')) {
+			const question = messageBody.replace('.gemini-roasting ', '').trim();
+            await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+            try {
+                const responseMessage = await GeminiRoastingMessage(question);
                 await sock.sendMessage(chatId, { text: responseMessage }, { quoted: msg });
                 console.log(`Response: ${responseMessage}`);
                 await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
@@ -1173,8 +1251,36 @@ async function Message(sock, messages) {
 				const inputFilePath = path.join(__dirname, '../upload/input-image.jpg');
 				fs.writeFileSync(inputFilePath, buffer);
 				try {
-					const geminiPromptImg = `${config.GEMINI_PROMPT}: ${getPrompt}`;
-					const analysisResult = await GeminiImage(inputFilePath, geminiPromptImg);
+					const analysisResult = await GeminiImage(inputFilePath, getPrompt);
+					await sock.sendMessage(chatId, { text: analysisResult }, { quoted: msg });
+					console.log(`Response: ${analysisResult}`);
+				} catch (error) {
+					  await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+				} finally {
+					fs.unlinkSync(inputFilePath);
+					await sock.sendMessage(chatId, { react: { text: "✅", key: msg.key } });
+				}
+			} else {
+				await sock.sendMessage(chatId, { text: "Tidak ada gambar yang di-quote untuk dianalisis." }, { quoted: msg });
+				await sock.sendMessage(chatId, { react: { text: "❌", key: msg.key } });
+			}
+		}
+		
+		// Gemini Image Analysis Roasting
+		if (messageBody.startsWith('.gemini-roasting-img ')) {
+			const quotedMessage = msg.message.extendedTextMessage?.contextInfo?.quotedMessage;
+			const getPrompt = messageBody.replace('.gemini-roasting-img ', '').trim();
+
+			if (quotedMessage?.imageMessage) {
+				await sock.sendMessage(chatId, { react: { text: "⌛", key: msg.key } });
+				const buffer = await downloadMediaMessage(
+					{ message: quotedMessage },
+					'buffer'
+				);
+				const inputFilePath = path.join(__dirname, '../upload/input-image.jpg');
+				fs.writeFileSync(inputFilePath, buffer);
+				try {
+					const analysisResult = await GeminiImageRoasting(inputFilePath, getPrompt);
 					await sock.sendMessage(chatId, { text: analysisResult }, { quoted: msg });
 					console.log(`Response: ${analysisResult}`);
 				} catch (error) {
