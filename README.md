@@ -7,6 +7,7 @@
 - Windows
 - Linux
 - Termux
+- Whatsapp Bot UI Version [Visit Repository](https://github.com/fitri-hy/whatsapp-bot-ui.git)
 
 ## Feature
 - Self Bot (True/False) Command `config.json`
